@@ -1,18 +1,20 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-exports.Login = async () => {
-  try {
-    const { email, pass } = req.body;
+// schema
+const Users = require("../models/userSchema");
+const refreshTokenSchema = require("../models/refreshTokenSchema");
 
-    if (!pass || pass.trim() == "" || !email || email.trim() == "") {
+exports.Login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!password || password.trim() == "" || !email || email.trim() == "") {
       return res.status(400).json({ message: "missing required fields" });
     }
 
     //fetch user by email
-    const user = await Users.findOne({ email: email })
-      .select("+password")
-      .populate("roleid");
+    const user = await Users.findOne({ email: email }).select("+password");
     if (!user) {
       return res.status(404).json({
         message: "user not found",
@@ -20,7 +22,7 @@ exports.Login = async () => {
     }
 
     // check the password
-    const verified = await bcrypt.compare(pass, user.password);
+    const verified = await bcrypt.compare(password, user.password);
     if (!verified) {
       return res.status(400).json({ message: "invalid credentials" });
     }
@@ -83,7 +85,7 @@ exports.Login = async () => {
   }
 };
 
-exports.Logout = async () => {
+exports.Logout = async (req, res) => {
   try {
     // get current refresh token
     const refreshToken = req.cookies.refreshToken;
@@ -105,7 +107,7 @@ exports.Logout = async () => {
   }
 };
 
-exports.refreshToken = async () => {
+exports.refreshToken = async (req, res) => {
   const rt = req.cookies.refreshToken;
 
   if (!rt) {

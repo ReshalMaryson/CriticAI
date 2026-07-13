@@ -6,6 +6,7 @@ const cors = require("cors");
 
 // routes source
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const ConnectDB = require("./db/db");
 
@@ -25,6 +26,7 @@ server.use(cookieParser());
 ConnectDB();
 
 // server routes.
+server.use("/auth", authRoutes);
 server.use("/users", userRoutes);
 
 //server start
