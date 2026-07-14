@@ -1,14 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/userSchema");
 
 //controller
-const { getAllUsers, createUser } = require("../controllers/users");
+const {
+  getAllUsers,
+  createUser,
+  getVerifiedUser,
+} = require("../controllers/users");
+
+// middleware
+const verifyToken = require("../middlewares/auth/verifyJWT");
 
 //get all users
-router.get("/", getAllUsers);
+router.get("/", verifyToken, getAllUsers);
 
 //create user
-router.post("/", createUser);
+router.post("/", verifyToken, createUser);
+
+// get the details of JWT verified user
+router.get("/me", verifyToken, getVerifiedUser);
 
 module.exports = router;
