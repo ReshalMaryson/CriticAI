@@ -16,7 +16,7 @@ export default function Login() {
 
   const userCredentials = {
     email: email.trim(),
-    pass: password.trim(),
+    password: password.trim(),
   };
 
   return (

@@ -2,14 +2,14 @@ import api from "../../../api/axios";
 
 //login
 export const loginAttempt = async (user, navigate, login) => {
-  if (!user.email || !user.pass) {
+  if (!user.email || !user.password) {
     alert("enter values");
     return;
   }
   try {
     const res = await api.post("/auth/login", user); // returns the user data.
     navigate("/profile");
-    // console.log("login" + res.data.data); //
+    //    console.log(res);
     login(res.data.data);
   } catch (err) {
     console.log(err.response?.data || err.message);
