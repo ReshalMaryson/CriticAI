@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcyrpt = require("bcrypt");
+const bcyrpt = require("bcryptjs");
 
 //Schemas
 // const Tokens = require("../models/refreshTokenSchema");

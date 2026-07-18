@@ -7,6 +7,7 @@ const cors = require("cors");
 // routes source
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+const apiRoutes = require("./routes/apiRoutes");
 
 const ConnectDB = require("./db/db");
 
@@ -28,6 +29,7 @@ ConnectDB();
 // server routes.
 server.use("/auth", authRoutes);
 server.use("/users", userRoutes);
+server.use("/api", apiRoutes);
 
 //server start
 server.listen(5000, () => {
