@@ -1,13 +1,13 @@
 const { Gemini } = require("../services/geminiService");
 
-exports.test = async (req, res) => {
+exports.Generate = async (req, res) => {
   try {
     const {code, language} = req.body;
 
     const response = await Gemini(code, language);
-    
-    res.json({
-      success: true,
+
+    res.ststus(200).json({
+      status: true,
       message: response,
     });
   } catch (err) {
@@ -15,6 +15,8 @@ exports.test = async (req, res) => {
 
     res.status(500).json({
       success: false,
+      message:"failed to generate response",
+      error:err.message
     });
   }
 };

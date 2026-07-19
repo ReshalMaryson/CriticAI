@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 // controller
-const { test } = require("../controllers/api");
+const { Generate } = require("../controllers/api");
 
-router.post("/test", test);
+//middleware
+const verifyToken = require("../middlewares/auth/verifyJWT");
+
+router.post("/generate", verifyToken, Generate);
 
 module.exports = router;
 
