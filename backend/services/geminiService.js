@@ -139,11 +139,22 @@ Assumptions:
                     "verdict"
                 ]
             }
+
+
         }
     });
 
 
-    return JSON.parse(response.text);
+    return {
+        result: JSON.parse(response.text),
+         usage:{
+        inputTokens: response.usageMetadata?.promptTokenCount || 0,
+
+        outputTokens: response.usageMetadata?.candidatesTokenCount || 0,
+
+        totalTokens: response.usageMetadata?.totalTokenCount || 0
+    }
+    };
 }
 
 module.exports = {
