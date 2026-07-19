@@ -1,10 +1,39 @@
 import "../../css/generate/generate.css";
-import { useState,useRef } from "react";
+import { useState,useRef,useEffect } from "react";
 
 export default function Generate() {
   const [code,setCode] = useState("");
   const [language,setLanguage] = useState("javascript");
+  const [placeholder,setPlaceholder] = useState("");
   const sliderRef = useRef();
+useEffect(()=>{
+
+  if(code){
+    setPlaceholder("");
+    return;
+  }
+
+  const text="Paste your code here...";
+
+  let index=0;
+
+  const interval=setInterval(()=>{
+
+    if(index<=text.length){
+      setPlaceholder(text.slice(0,index));
+      index++;
+    }
+    else{
+      index=0;
+      setPlaceholder("");
+    }
+
+  },90);
+
+  return()=>clearInterval(interval);
+
+},[code]);
+
 
   const recentReviews = [
     {
@@ -33,12 +62,14 @@ export default function Generate() {
     }
   ];
 
+
   const slide = (direction)=>{
     sliderRef.current.scrollBy({
       left:direction==="right"?300:-300,
       behavior:"smooth"
     });
   };
+
 
   return (
     <div className="generate-page">
@@ -51,7 +82,7 @@ export default function Generate() {
         </div>
 
         <textarea
-          placeholder="Paste your code here..."
+          placeholder={placeholder}
           value={code}
           onChange={(e)=>setCode(e.target.value)}
         />
@@ -83,8 +114,7 @@ export default function Generate() {
         </h2>
 
         <div className="recent-wrapper">
-
-          <button
+{recentReviews.length > 0 ? <> <button
             className="slider-btn"
             onClick={()=>slide("left")}
           >
@@ -95,8 +125,8 @@ export default function Generate() {
             className="reviews-slider"
             ref={sliderRef}
           >
-
-            {recentReviews.map((review,index)=>(
+          
+            {  recentReviews.map((review,index)=>(
               <div className="review-card" key={index}>
                 <h3>{review.title}</h3>
 
@@ -118,16 +148,17 @@ export default function Generate() {
             <button className="more-review">
               More →
             </button>
-
           </div>
+  
 
           <button
             className="slider-btn"
             onClick={()=>slide("right")}
           >
             →
-          </button>
-
+          </button></>
+:<p className="no-reviews">No Recent Reviews</p>}
+         
         </div>
 
       </section>
