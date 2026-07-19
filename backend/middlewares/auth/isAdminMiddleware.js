@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 exports.isAdmin = async (req, res, next) => {
   try {
     const Id = req.id;
+    console.log(Id); // this is giving correct id of the user
 
     if (!Id || !mongoose.Types.ObjectId.isValid(Id)) {
       return res.status(400).json({
@@ -12,7 +13,7 @@ exports.isAdmin = async (req, res, next) => {
       });
     }
 
-    const user = await User.findById(Id).populate("roleid");
+    const user = await User.findById(Id);
 
     if (!user) {
       return res.status(404).json({
@@ -21,7 +22,7 @@ exports.isAdmin = async (req, res, next) => {
       });
     }
 
-    if (user.roleid.role !== "admin") {
+    if (user.role !== "admin") {
       return res.status(401).json({
         status: "failure",
         message: "unauthorized | not an admin",

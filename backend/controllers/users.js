@@ -42,6 +42,7 @@ exports.createUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPass,
+      role:req.body.role
     };
 
     const userAdded = await User.create(payload);

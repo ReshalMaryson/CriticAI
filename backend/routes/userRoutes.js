@@ -10,14 +10,16 @@ const {
 
 // middleware
 const verifyToken = require("../middlewares/auth/verifyJWT");
+const emailExists = require("../middlewares/user/emailExists");
+const {isAdmin} = require("../middlewares/auth/isAdminMiddleware");
 
 //get all users
-router.get("/", verifyToken, getAllUsers);
+router.get("/", verifyToken,isAdmin, getAllUsers);
 
 // get the details of JWT verified user
 router.get("/me", verifyToken, getVerifiedUser);
 
 //create user
-router.post("/", verifyToken, createUser);
+router.post("/",emailExists,createUser);
 
 module.exports = router;

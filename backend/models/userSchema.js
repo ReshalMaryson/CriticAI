@@ -10,7 +10,12 @@ const userSchema = new mongoose.Schema(
       unique: true,
       match: /.+\@.+\..+/, // simple email validation
     },
-
+    role:{
+      type :String,
+      enum:["user","admin"],
+      required:true,
+      default:"user"
+    },
     password: {
       type: String,
       required: true,
