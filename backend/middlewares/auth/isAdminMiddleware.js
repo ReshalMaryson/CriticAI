@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 exports.isAdmin = async (req, res, next) => {
   try {
     const Id = req.id;
-    console.log(Id); // this is giving correct id of the user
-
+    
     if (!Id || !mongoose.Types.ObjectId.isValid(Id)) {
       return res.status(400).json({
         status: "failure",

@@ -5,12 +5,14 @@ import Login from "./components/auth/login";
 import Profile from "./components/user/profile";
 import Header from "./components/header";
 
+import LandingPage from "./components/landingPage/LandingPage";
+
 function App() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
 
