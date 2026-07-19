@@ -1,5 +1,139 @@
-form {
-    padding: 1rem;
-    background-color: aquamarine;
-width: 30%;
+.login-page {
+  min-height: calc(100vh - 90px);
+  background: #050505;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+  padding: 60px 8%;
+     font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+.login-brand {
+  max-width: 500px;
+}
+
+.login-brand h1 {
+  font-size: 45px;
+  margin-bottom: 40px;
+}
+
+.login-brand h1 span {
+  color: #777;
+}
+
+.login-brand h2 {
+  font-size: 48px;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.login-brand p {
+  color: #888;
+  font-size: 17px;
+  line-height: 1.6;
+  margin-top: 25px;
+}
+
+.terminal {
+  margin-top: 35px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 15px;
+  padding: 20px;
+  font-family: monospace;
+  color: #aaa;
+}
+
+.success {
+  color: #ccc !important;
+  margin: 10px 0 !important;
+}
+
+.login-box {
+  width: 400px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.login-box h2 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.login-box p {
+  color: #888;
+}
+
+.login-box form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-box label {
+  margin-bottom: 8px;
+  color: #aaa;
+}
+
+.login-box input {
+  background: #050505;
+  border: 1px solid #333;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+.login-box input:focus {
+  border-color: white;
+}
+
+.login-box button {
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: white;
+  color: black;
+  font-size: 16px;
+}
+
+.divider {
+  text-align: center;
+  color: #666;
+  margin: 25px 0;
+}
+
+.google-btn {
+  background: transparent !important;
+  color: white !important;
+  border: 1px solid #333 !important;
+}
+
+.google-btn:hover {
+  border-color: white !important;
+}
+
+@media(max-width:900px) {
+  .login-page {
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .login-box {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .login-brand h2 {
+    font-size: 38px;
+  }
 }
