@@ -8,7 +8,7 @@ export default function LandingPage() {
 
         Sections:
 
-        1. Navbar
+        1. Navbar   (removed and made global)
            - Brand identity
            - Navigation
 
@@ -30,20 +30,6 @@ export default function LandingPage() {
     return (
 <>
         <div className="landing">
-
-            {/* Navbar */}
-            <nav className="navbar">
-                <div className="logo">
-                    Critic<span>AI</span>
-                </div>
-
-                <div className="nav-links">
-                    <a href="#">Features</a>
-                    <a href="#">Login</a>
-                </div>
-
-            </nav>
-
             {/* Hero Section */}
             <section className="hero">
 

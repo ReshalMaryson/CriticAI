@@ -10,7 +10,7 @@ import LandingPage from "./components/landingPage/LandingPage";
 function App() {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/profile" element={<Profile />} />
