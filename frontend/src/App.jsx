@@ -6,7 +6,7 @@ import Profile from "./components/user/profile";
 import Header from "./components/header";
 
 import LandingPage from "./components/landingPage/LandingPage";
-
+import Generate from "./components/generate/generate";
 function App() {
   return (
     <>
@@ -14,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage/>} />
         <Route path="/profile" element={<LandingPage/>} />
+        <Route path="/generate" element={<Generate/>} />
         <Route path="/login" element={<Login />} />
 
         {/* <Route path="/signup" element={<SignUp />} />
