@@ -7,7 +7,7 @@ const {getallReviews}=require("../controllers/review")
 
 //middlewares
 const verifyToken = require("../middlewares/auth/verifyJWT");
-const isAdmin = require("../middlewares/auth/isAdmin");
+// const isAdmin = require("../middlewares/auth/isAdmin");
 
 router.get("/",verifyToken,getallReviews)
 
