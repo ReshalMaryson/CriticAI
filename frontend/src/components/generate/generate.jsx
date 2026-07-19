@@ -1,6 +1,9 @@
 import "../../css/generate/generate.css";
 import { useState,useRef,useEffect } from "react";
 
+// controller 
+import { CreateReview } from "./controller/generateController";
+
 export default function Generate() {
   const [code,setCode] = useState("");
   const [language,setLanguage] = useState("javascript");
@@ -70,6 +73,11 @@ useEffect(()=>{
     });
   };
 
+// create review
+// function handleCreateReview(){
+//   console.log("Create Review");
+// }
+
 
   return (
     <div className="generate-page">
@@ -98,7 +106,7 @@ useEffect(()=>{
             <option value="java">Java</option>
           </select>
 
-          <button>
+          <button onClick={()=>CreateReview(code,language)}>
             Review Code
           </button>
 
