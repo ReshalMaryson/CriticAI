@@ -1,10 +1,23 @@
 import "../../css/generate/generate.css";
-import { useState,useRef,useEffect } from "react";
+import { useState,useRef,useEffect ,useContext} from "react";
+import { AuthContext } from "../../context/authContext";
+import { Link, useNavigate } from "react-router-dom";
+
 
 // controller 
 import { CreateReview } from "./controller/generateController";
 
 export default function Generate() {
+  const navigate = useNavigate();
+
+// check if user is logged in or not
+  const { user } = useContext(AuthContext);
+  useEffect(()=>{ 
+   if(!user){navigate("/login")}
+    console.log(user);
+  },[user])
+
+
   const [code,setCode] = useState("");
   const [language,setLanguage] = useState("javascript");
   const [placeholder,setPlaceholder] = useState("");

@@ -8,7 +8,7 @@ export const loginAttempt = async (user, navigate, login) => {
   }
   try {
     const res = await api.post("/auth/login", user); // returns the user data.
-    navigate("/profile");
+    navigate("/");
     //    console.log(res);
     login(res.data.data);
   } catch (err) {
@@ -21,7 +21,7 @@ export const logoutAttempt = async (navigate, logout) => {
   try {
     await api.post("/auth/logout");
     logout();
-    navigate("/login");
+    navigate("/");
   } catch (err) {
     console.log(err.response?.data || err.message);
   }
