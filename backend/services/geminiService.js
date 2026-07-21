@@ -15,7 +15,8 @@ ${code}
 
     const response = await ai.models.generateContent({
 
-        model: "gemini-3.5-flash",
+        // model: "gemini-3.5-flash",
+        model: "gemini-flash-latest",
 
         contents: prompt,
 
@@ -43,6 +44,7 @@ Rules:
 4. If something is possible but cannot be confirmed, mention it in Potential Issues.
 5. Be strict, educational, and accurate.
 6. Do not praise poor code.
+7. Always give a constructive verdict, not few words.
 
 Classify findings into:
 

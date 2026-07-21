@@ -3,12 +3,19 @@ import { useState,useRef,useEffect ,useContext} from "react";
 import { AuthContext } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 
+//helper component
+import ReviewResponse from "./helpers/reviewResponse";
+
 
 // controller 
 import { CreateReview } from "./controller/generateController";
 
 export default function Generate() {
   const navigate = useNavigate();
+
+  // modify
+  const [loading,setLoading]=useState(false);
+const [review,setReview]=useState(null);
 
 // check if user is logged in or not
   const { user } = useContext(AuthContext);
@@ -86,10 +93,10 @@ useEffect(()=>{
     });
   };
 
-  return (
+ return review ?(<ReviewResponse review={review} setReview={setReview}/>): (
     <div className="generate-page">
 
-      <section className="review-container">
+<section className="review-container">
 
         <div className="review-header">
           <h1>Code Review</h1>
@@ -112,11 +119,32 @@ useEffect(()=>{
             <option value="python">Python</option>
             <option value="java">Java</option>
           </select>
-
+{/* 
           <button onClick={()=>CreateReview(code,language)}>
             Review Code
-          </button>
+          </button> */}
 
+          {/* // modify */}
+          <button
+            onClick={async()=>{
+
+              setLoading(true);
+
+              const response=await CreateReview(
+                code,
+                language
+              );
+
+              if(response.success){
+                setReview(response.data);
+              }
+
+              setLoading(false);
+
+            }}
+          >
+            {loading?"Reviewing...":"Review Code"}
+          </button>
         </div>
 
       </section>
@@ -180,4 +208,5 @@ useEffect(()=>{
 
     </div>
   );
+ 
 }
