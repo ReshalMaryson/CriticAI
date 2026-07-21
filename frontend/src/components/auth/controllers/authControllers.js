@@ -8,9 +8,13 @@ export const loginAttempt = async (user, navigate, login) => {
   }
   try {
     const res = await api.post("/auth/login", user); // returns the user data.
-    navigate("/");
-    //    console.log(res);
     login(res.data.data);
+
+    navigate("/", {
+      replace: true,
+      state: { reloadAfterLogin: true }, 
+    });
+
   } catch (err) {
     console.log(err.response?.data || err.message);
   }

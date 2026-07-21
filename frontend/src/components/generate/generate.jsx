@@ -12,9 +12,9 @@ export default function Generate() {
 
 // check if user is logged in or not
   const { user } = useContext(AuthContext);
+  
   useEffect(()=>{ 
    if(!user){navigate("/login")}
-    console.log(user);
   },[user])
 
 
@@ -85,12 +85,6 @@ useEffect(()=>{
       behavior:"smooth"
     });
   };
-
-// create review
-// function handleCreateReview(){
-//   console.log("Create Review");
-// }
-
 
   return (
     <div className="generate-page">

@@ -1,31 +1,19 @@
- import "../../css/landingPage/landingPage.css";
+ import { useEffect } from "react";
+ import { useLocation, useNavigate } from "react-router-dom";
+import "../../css/landingPage/landingPage.css";
 
 
 export default function LandingPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+ 
+  useEffect(() => {
+    if (location.state?.reloadAfterLogin) {
 
-    /*
-        CriticAI Landing Page
-
-        Sections:
-
-        1. Navbar   (removed and made global)
-           - Brand identity
-           - Navigation
-
-        2. Hero
-           - Main marketing message
-           - CTA buttons
-           - AI Review preview card
-
-        3. Features
-           - Core product benefits
-
-        4. Footer
-
-        Component is standalone.
-        No external libraries required.
-    */
-
+      navigate("/", { replace: true, state: null });
+      window.location.reload();
+    }
+  }, [location.state, navigate]);
 
     return (
 <>
