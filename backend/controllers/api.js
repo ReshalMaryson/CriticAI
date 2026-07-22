@@ -3,6 +3,7 @@ const { Gemini } = require("../services/geminiService");
 // Schemas
 const Review=require("../models/reviewSchema")
 
+// create a review.
 exports.Generate = async (req, res) => {
   try {
     const {code, language} = req.body;
@@ -27,14 +28,12 @@ exports.Generate = async (req, res) => {
 
      })
 
-
     res.status(200).json({
       status: true,
       message: response,
     });
   } catch (err) {
     console.log(err);
-
     res.status(500).json({
       success: false,
       message:"failed to generate response",

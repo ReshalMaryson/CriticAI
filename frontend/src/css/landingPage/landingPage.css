@@ -177,13 +177,20 @@ button{
 
 
 .primary{
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background:white;
-
     color:black;
-
     border:none;
-
+    border-radius: 50px;
+    padding: 0.3rem;
+    font-size: 1rem;
+    font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+    text-decoration: none;
 }
 
 

@@ -8,14 +8,25 @@ export const CreateReview=async(code,language)=>{
       language
     };
     const res=await api.post("/api/generate",payload);
-  console.log(res);
     return{
       success:true,
       data:res.data.message.result
     };
 
   }catch(err){
-    console.log(err);
+    throw err;
+  }
+};
+
+
+// get the recent reviews
+export const RecentReviews = async (setRecentReview) => {
+  try {
+    const res = await api.get("/reviews/recent");
+    if(res){
+    setRecentReview(res.data.data);
+    }
+  } catch (err) {
     throw err;
   }
 };

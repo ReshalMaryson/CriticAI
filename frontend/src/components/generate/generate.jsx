@@ -8,27 +8,26 @@ import ReviewResponse from "./helpers/reviewResponse";
 
 
 // controller 
-import { CreateReview } from "./controller/generateController";
+import { CreateReview,RecentReviews } from "./controller/generateController";
 
 export default function Generate() {
   const navigate = useNavigate();
-
-  // modify
   const [loading,setLoading]=useState(false);
-const [review,setReview]=useState(null);
-
-// check if user is logged in or not
-  const { user } = useContext(AuthContext);
-  
-  useEffect(()=>{ 
-   if(!user){navigate("/login")}
-  },[user])
-
-
+  const [review,setReview]=useState(null);
+  const [recentReviews,setRecentReview]=useState([]);
   const [code,setCode] = useState("");
   const [language,setLanguage] = useState("javascript");
   const [placeholder,setPlaceholder] = useState("");
   const sliderRef = useRef();
+
+  // const { user } = useContext(AuthContext);
+  
+  useEffect(()=>{ 
+      RecentReviews(setRecentReview); 
+  },[])
+
+
+
 useEffect(()=>{
 
   if(code){
@@ -58,32 +57,32 @@ useEffect(()=>{
 },[code]);
 
 
-  const recentReviews = [
-    {
-      title:"Auth Middleware Review",
-      language:"Javascript",
-      score:85,
-      date:"Today"
-    },
-    {
-      title:"User Controller Review",
-      language:"Javascript",
-      score:72,
-      date:"Yesterday"
-    },
-    {
-      title:"API Review",
-      language:"Python",
-      score:90,
-      date:"2 days ago"
-    },
-    {
-      title:"Database Review",
-      language:"Java",
-      score:78,
-      date:"3 days ago"
-    }
-  ];
+  // const recentReviews = [
+  //   {
+  //     title:"Auth Middleware Review",
+  //     language:"Javascript",
+  //     score:85,
+  //     date:"Today"
+  //   },
+  //   {
+  //     title:"User Controller Review",
+  //     language:"Javascript",
+  //     score:72,
+  //     date:"Yesterday"
+  //   },
+  //   {
+  //     title:"API Review",
+  //     language:"Python",
+  //     score:90,
+  //     date:"2 days ago"
+  //   },
+  //   {
+  //     title:"Database Review",
+  //     language:"Java",
+  //     score:78,
+  //     date:"3 days ago"
+  //   }
+  // ];
 
 
   const slide = (direction)=>{
@@ -119,28 +118,19 @@ useEffect(()=>{
             <option value="python">Python</option>
             <option value="java">Java</option>
           </select>
-{/* 
-          <button onClick={()=>CreateReview(code,language)}>
-            Review Code
-          </button> */}
 
-          {/* // modify */}
           <button
             onClick={async()=>{
-
               setLoading(true);
-
               const response=await CreateReview(
                 code,
                 language
               );
-
               if(response.success){
                 setReview(response.data);
+                 RecentReviews();
               }
-
               setLoading(false);
-
             }}
           >
             {loading?"Reviewing...":"Review Code"}
@@ -157,7 +147,7 @@ useEffect(()=>{
         </h2>
 
         <div className="recent-wrapper">
-{recentReviews.length > 0 ? <> <button
+      {recentReviews.length > 0 ? <> <button
             className="slider-btn"
             onClick={()=>slide("left")}
           >
@@ -171,17 +161,17 @@ useEffect(()=>{
           
             {  recentReviews.map((review,index)=>(
               <div className="review-card" key={index}>
-                <h3>{review.title}</h3>
+                <h3>{review.result.result.title}</h3>
 
                 <p>{review.language}</p>
 
                 <div className="review-info">
                   <span>
-                    Score: {review.score}
+                    Score: {review.result.result.score}
                   </span>
 
                   <span>
-                    {review.date}
+                    {review.result.date}
                   </span>
                 </div>
 
@@ -193,19 +183,15 @@ useEffect(()=>{
             </button>
           </div>
   
-
           <button
             className="slider-btn"
             onClick={()=>slide("right")}
           >
             →
           </button></>
-:<p className="no-reviews">No Recent Reviews</p>}
-         
+             :<p className="no-reviews">No Recent Reviews</p>}
         </div>
-
       </section>
-
     </div>
   );
  

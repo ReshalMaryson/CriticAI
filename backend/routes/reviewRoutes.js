@@ -1,15 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-
 //contoller
-const {getallReviews}=require("../controllers/review")
+const {getallReviews,getRecentReviews,deleteReview}=require("../controllers/review")
 
 //middlewares
 const verifyToken = require("../middlewares/auth/verifyJWT");
 // const isAdmin = require("../middlewares/auth/isAdmin");
 
-router.get("/",verifyToken,getallReviews)
+// get all reviews.
+router.get("/",verifyToken,getallReviews);
 
+// get 5 most recent reviews of logged in user
+router.get("/recent",verifyToken,getRecentReviews);
+
+// delete all reviews
+router.delete("/",verifyToken,deleteReview);
 
 module.exports = router;

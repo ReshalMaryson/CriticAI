@@ -47,7 +47,8 @@ Rules:
 8. Potential issues: Always include a “Potential Issues” section. If the code is fundamentally incorrect, explain the key errors and their likely impact.
 9. Performance: Always include a “Performance” section. If the code has syntax errors or cannot run, state: “The code contains syntax errors and cannot be executed; therefore, its runtime performance cannot be assessed.”
 10.Strengths: Always include a “Strengths” section. If the code is severely flawed or cannot run, state: “No meaningful strengths can be identified because the code contains critical errors that prevent execution.” Otherwise, identify specific positive aspects of the code.
- 
+11. always create a short few words title for each review.
+
 --------sections--------- 
 
 Code Score (0–100):
@@ -103,9 +104,12 @@ List only assumptions necessary to review the code due to missing context. Do no
             responseSchema: {
 
                 type: "object",
-
+               
                 properties: {
 
+                     title:{
+                    type:"string"
+                    },
                     score: {
                         type: "number"
                     },

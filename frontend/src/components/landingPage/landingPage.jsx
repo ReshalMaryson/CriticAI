@@ -1,12 +1,13 @@
- import { useEffect } from "react";
- import { useLocation, useNavigate } from "react-router-dom";
+ import { useEffect,useContext } from "react";
+ import { useLocation, useNavigate,Link } from "react-router-dom";
 import "../../css/landingPage/landingPage.css";
-
+import { AuthContext } from "../../context/authContext";
 
 export default function LandingPage() {
   const location = useLocation();
   const navigate = useNavigate();
- 
+  const {user}=useContext(AuthContext);
+
   useEffect(() => {
     if (location.state?.reloadAfterLogin) {
 
@@ -38,11 +39,14 @@ export default function LandingPage() {
                         your architecture before production.
                     </p>
 
-                    <div className="buttons">
-
-                        <button className="primary">
-                            Start Reviewing
-                        </button>
+                    <div className="buttons">                     
+                    <Link
+                    to={user ? "/generate" : "/login"}
+                    className="primary"
+                    >
+                    Start Reviewing
+                    </Link>
+                            
                         <button className="secondary">
                             Explore
                         </button>
