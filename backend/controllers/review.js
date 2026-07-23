@@ -1,4 +1,5 @@
 //schema
+const { default: mongoose } = require("mongoose");
 const Review=require("../models/reviewSchema");
 
 // get all reviews
@@ -32,7 +33,43 @@ exports.getallReviews=async(req,res)=>{
     }
 }
 
+// get review by id
+exports.getReviewById =async(req,res)=>{
+  try{
+    const {id}=req.params;
+      if(!mongoose.Types.ObjectId.isValid(id)){
+          return res.status(400).json({
+          status: "failure",
+          message: "Invalid review id",
+      });
+      }
 
+    const review=await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({
+        status: "failure",
+        message: "review not found",
+      });
+    }
+  
+   // success response 
+    res.status(200).json({
+        status:true,
+        message:"review fetched successfully",
+        data:review,
+
+     })
+
+  }catch(err){        
+        res.status(500).json({
+            status:false,
+            message:"Server Error",
+            error:err.message
+        })
+
+  }
+}
 // get the code(prompt) of review.
 exports.getPrompt=async (req,res)=>{}
 

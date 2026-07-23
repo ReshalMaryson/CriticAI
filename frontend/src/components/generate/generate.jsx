@@ -8,7 +8,7 @@ import ReviewResponse from "./helpers/reviewResponse";
 
 
 // controller 
-import { CreateReview,RecentReviews } from "./controller/generateController";
+import { CreateReview,RecentReviews,getReviewById } from "./controller/generateController";
 
 export default function Generate() {
   const navigate = useNavigate();
@@ -19,14 +19,14 @@ export default function Generate() {
   const [language,setLanguage] = useState("javascript");
   const [placeholder,setPlaceholder] = useState("");
   const sliderRef = useRef();
-
-  // const { user } = useContext(AuthContext);
   
   useEffect(()=>{ 
       RecentReviews(setRecentReview); 
   },[])
 
-
+function spitId(id){
+  console.log(id);
+}
 
 useEffect(()=>{
 
@@ -55,34 +55,6 @@ useEffect(()=>{
   return()=>clearInterval(interval);
 
 },[code]);
-
-
-  // const recentReviews = [
-  //   {
-  //     title:"Auth Middleware Review",
-  //     language:"Javascript",
-  //     score:85,
-  //     date:"Today"
-  //   },
-  //   {
-  //     title:"User Controller Review",
-  //     language:"Javascript",
-  //     score:72,
-  //     date:"Yesterday"
-  //   },
-  //   {
-  //     title:"API Review",
-  //     language:"Python",
-  //     score:90,
-  //     date:"2 days ago"
-  //   },
-  //   {
-  //     title:"Database Review",
-  //     language:"Java",
-  //     score:78,
-  //     date:"3 days ago"
-  //   }
-  // ];
 
 
   const slide = (direction)=>{
@@ -128,7 +100,7 @@ useEffect(()=>{
               );
               if(response.success){
                 setReview(response.data);
-                 RecentReviews();
+                 RecentReviews(setRecentReview);
               }
               setLoading(false);
             }}
@@ -160,7 +132,7 @@ useEffect(()=>{
           >
           
             {  recentReviews.map((review,index)=>(
-              <div className="review-card" key={index}>
+              <div className="review-card" key={index} onClick={()=>{getReviewById(review._id,setReview)}}>
                 <h3>{review.result.result.title}</h3>
 
                 <p>{review.language}</p>
