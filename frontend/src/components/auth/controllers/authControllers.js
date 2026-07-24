@@ -20,6 +20,23 @@ export const loginAttempt = async (user, navigate, login) => {
   }
 };
 
+//google login
+export const googleLoginAttempt = async (accessToken, navigate, login) => {
+  try {
+    const res = await api.post("/auth/google", { accessToken });
+    login(res.data.data);
+
+    navigate("/", {
+      replace: true,
+      state: { reloadAfterLogin: true },
+    });
+  } catch (err) {
+    console.log(err.response?.data || err.message);
+  }
+};
+
+
+
 // logout
 export const logoutAttempt = async (navigate, logout) => {
   try {

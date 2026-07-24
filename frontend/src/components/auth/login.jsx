@@ -2,7 +2,13 @@ import "../../css/login.css";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-import { loginAttempt } from "./controllers/authControllers";
+import { useGoogleLogin } from "@react-oauth/google";
+
+// controllers
+import {
+  loginAttempt,
+  googleLoginAttempt,
+} from "./controllers/authControllers";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,6 +21,14 @@ export default function Login() {
     email: email.trim(),
     password: password.trim(),
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      // tokenResponse.access_token
+      await googleLoginAttempt(tokenResponse.access_token, navigate, login);
+    },
+    onError: () => console.log("Google login failed"),
+  });
 
   return (
     <div className="login-page">
@@ -30,9 +44,8 @@ export default function Login() {
         </h2>
 
         <p>
-          Analyze your code, detect vulnerabilities,
-          and improve your architecture with an AI
-          senior engineer mindset.
+          Analyze your code, detect vulnerabilities, and improve your
+          architecture with an AI senior engineer mindset.
         </p>
 
         <div className="terminal">
@@ -49,7 +62,6 @@ export default function Login() {
 
         <form>
           <label>Email</label>
-
           <input
             type="email"
             required
@@ -57,9 +69,7 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-
           <label>Password</label>
-
           <input
             type="password"
             required
@@ -67,7 +77,6 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <button
             type="button"
             onClick={() => {
@@ -76,14 +85,15 @@ export default function Login() {
           >
             Login
           </button>
-
-          <div className="divider">
-            OR
-          </div>
-
-          <button type="button" className="google-btn">
+          <div className="divider">OR</div>
+          {/* google auth button */}
+          <button
+            type="button"
+            className="google-btn"
+            onClick={() => googleLogin()}
+          >
             Continue with Google
-          </button>
+          </button>{" "}
         </form>
       </div>
     </div>
