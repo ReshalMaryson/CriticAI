@@ -155,3 +155,91 @@ exports.refreshToken = async (req, res) => {
     });
   }
 };
+
+exports.GoogleLogin = async (req, res) => {
+  try {
+    const { accessToken } = req.body;
+
+    if (!accessToken) {
+      return res.status(400).json({ message: "missing required fields" });
+    }
+
+    // verify token with Google
+    const googleRes = await fetch(
+      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`
+    );
+
+    if (!googleRes.ok) {
+      return res.status(401).json({ message: "invalid google token" });
+    }
+
+    const payload = await googleRes.json();
+    // payload: { sub, email, name, picture, email_verified }
+
+    // find or create user
+    let user = await Users.findOne({ email: payload.email });
+    if (!user) {
+      user = await Users.create({
+        name: payload.name,
+        email: payload.email,
+        googleId: payload.sub,
+        avatar: payload.picture,
+      });
+    }
+
+    // creating JWT for current user logged in.
+    const jwtAccessToken = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1m", // initial jwt expriy time for testing purpose.
+      },
+    );
+
+    // Refresh Token for the current user.
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.JWT_REFRESH_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+
+    // save refresh token in the DB
+    if (refreshToken) {
+      refreshTokenSchema.create({
+        user: user._id,
+        token: refreshToken,
+      });
+    }
+
+    // save access token in cookie
+    res.cookie("token", jwtAccessToken, {
+      httpOnly: true,
+      secure: false, // false for dev...true for deploy
+      sameSite: "strict",
+      maxAge: 3 * 60 * 1000,
+    });
+
+    // save refresh token in cookie
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false, // false for dev...true for deploy
+      sameSite: "strict",
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+    });
+
+    // payload for the response
+    const resUser = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    };
+
+    return res.status(200).json({ message: "login successful", data: resUser });
+  } catch (err) {
+    return res.status(500).json({ message: "server error " + err.message });
+  }
+};

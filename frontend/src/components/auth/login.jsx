@@ -24,7 +24,6 @@ export default function Login() {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      // tokenResponse.access_token
       await googleLoginAttempt(tokenResponse.access_token, navigate, login);
     },
     onError: () => console.log("Google login failed"),

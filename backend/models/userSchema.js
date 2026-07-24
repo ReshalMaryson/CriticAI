@@ -10,16 +10,26 @@ const userSchema = new mongoose.Schema(
       unique: true,
       match: /.+\@.+\..+/, // simple email validation
     },
-    role:{
-      type :String,
-      enum:["user","admin"],
-      required:true,
-      default:"user"
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      required: true,
+      default: "user",
     },
     password: {
       type: String,
-      required: true,
+      required: false,
       select: false, //will not be fetched by find()
+    },
+    googleId: {
+      type: String,
+      required: false,
+      unique: true,
+      sparse: true, // allows multiple docs with no googleId without unique-index conflicts
+    },
+    avatar: {
+      type: String,
+      required: false,
     },
   },
   { timestamps: true },
