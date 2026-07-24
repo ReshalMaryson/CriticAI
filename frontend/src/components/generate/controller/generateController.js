@@ -24,7 +24,7 @@ export const RecentReviews = async (setRecentReview) => {
   try {
     const res = await api.get("/reviews/recent");
     if(res){
-      // console.log( res.data.data);
+      console.log( res.data.data);
     setRecentReview(res.data.data);
     }
   } catch (err) {

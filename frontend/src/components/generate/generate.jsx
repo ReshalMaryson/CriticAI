@@ -142,9 +142,19 @@ useEffect(()=>{
                     Score: {review.result.result.score}
                   </span>
 
-                  <span>
-                    {review.result.date}
-                  </span>
+                  {/* <span>
+                    {review.createdAt}
+                  </span> */}
+                <span>
+                    {new Date(review.createdAt).toLocaleString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                </span>
                 </div>
 
               </div>
