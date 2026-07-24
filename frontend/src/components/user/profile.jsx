@@ -1,118 +1,187 @@
-import { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-
-// controller
 import { logoutAttempt } from "../auth/controllers/authControllers";
 import {
+  deleteAccount,
   getUser,
   updateUser,
-  deleteAccount,
 } from "./controllers/userController";
+import "../../css/user/profile.css";
 
 export default function Profile() {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
-  const [user, setUser] = useState();
 
+  const [user, setUser] = useState(null);
   const [updateData, setUpdateData] = useState({
-    name: "", // name
+    name: "",
     email: "",
   });
-  //  run on mount
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     getUser(setUser);
   }, []);
 
-  //assign data for updation
   useEffect(() => {
     if (user) {
       setUpdateData({
-        name: user.name, // name
-        email: user.email,
+        name: user.name || "",
+        email: user.email || "",
       });
     }
+    //    console.log(user);
   }, [user]);
 
-  // handle update data
-  function onChangeHandle(e) {
-    setUpdateData({
-      ...updateData,
-      [e.target.name]: e.target.value,
-    });
+  function handleChange(event) {
+    setUpdateData((previousData) => ({
+      ...previousData,
+      [event.target.name]: event.target.value,
+    }));
+
+    setMessage("");
   }
 
+  async function handleSave(event) {
+    event.preventDefault();
+
+    if (!user?._id || !updateData.name.trim()) return;
+
+    setIsSaving(true);
+    setMessage("");
+
+    await updateUser(user._id, updateData, setUser);
+
+    setIsSaving(false);
+    setMessage("Your profile has been updated.");
+  }
+
+  function handleDelete() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete your CriticAI account? This cannot be undone.",
+    );
+
+    if (confirmed && user?._id) {
+      deleteAccount(user._id, logoutAttempt, navigate, logout);
+    }
+  }
+
+  if (!user) {
+    return (
+      <main className="profile-page">
+        <div className="profile-loading">Loading your profile...</div>
+      </main>
+    );
+  }
+
+  const initials = user.name
+    ? user.name
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : "U";
+
   return (
-    <>
-      <h1>User Profile</h1>
+    <main className="profile-page">
+      <section className="profile-layout">
+        <aside className="profile-sidebar">
+          <div className="profile-avatar">{initials}</div>
 
-      {user ? (
-        <div>
-          <p>
-            <b>id:</b> {user._id}
-          </p>
-          <p>
-            <b>hey:</b> {user.name}
-          </p>
-          <p>
-            <b>Email:</b> {user.email}
-          </p>
-        </div>
-      ) : (
-        <p>Loading user...</p>
-      )}
-      {user ? (
-        <div className="updateDetails">
-          <hr />
+          <p className="profile-label">CRITICAI MEMBER</p>
+          <h1>{user.name}</h1>
+          <p className="profile-email">{user.email}</p>
 
-          <h2>Update User Details</h2>
-          <div>
-            <label htmlFor="username">uesername : </label>
-            <input
-              type="text"
-              name="name"
-              value={updateData.name}
-              onChange={onChangeHandle}
-            />
+          <div className="profile-divider" />
+
+          <div className="profile-history">
+            <div className="history-icon">⌘</div>
+            <div>
+              <p>Review History</p>
+              <span>Your latest code reviews are available in Generate.</span>
+            </div>
           </div>
-          <div>
-            <label htmlFor="email">email : </label>
-            <input
-              type="email"
-              readOnly
-              name="email"
-              value={updateData.email}
-            />
-          </div>
-          <hr />
-        </div>
-      ) : (
-        <p>Loading data...</p>
-      )}
 
-      <div>
-        <button
-          onClick={() => {
-            logoutAttempt(navigate, logout);
-          }}
-        >
-          Logout
-        </button>
-        <button
-          onClick={() => {
-            updateUser(user._id, updateData, setUser);
-          }}
-        >
-          Update Details
-        </button>
-        <button
-          onClick={() => {
-            deleteAccount(user._id, logoutAttempt, navigate, logout);
-          }}
-        >
-          Delete Account
-        </button>
-      </div>
-    </>
+          <Link to="/generate" className="profile-review-link">
+            Review new code <span>→</span>
+          </Link>
+        </aside>
+
+        <section className="profile-content">
+          <p className="profile-eyebrow">ACCOUNT SETTINGS</p>
+          <h2>
+            Hello, <span>{user.name.split(" ")[0]}.</span>
+          </h2>
+          <p className="profile-intro">
+            Keep your personal details up to date and manage your CriticAI
+            account.
+          </p>
+
+          <form className="profile-form" onSubmit={handleSave}>
+            <div className="profile-form-heading">
+              <div>
+                <h3>Personal information</h3>
+                <p>These details are used across your CriticAI account.</p>
+              </div>
+            </div>
+
+            <div className="profile-field">
+              <label htmlFor="name">Display name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={updateData.name}
+                onChange={handleChange}
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+
+            <div className="profile-field">
+              <label htmlFor="email">Email address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={updateData.email}
+                readOnly
+              />
+              <small>Email address cannot be changed from this page.</small>
+            </div>
+
+            <div className="profile-form-actions">
+              {message && <p className="profile-success">{message}</p>}
+
+              <button
+                type="submit"
+                className="profile-save-btn"
+                disabled={isSaving}
+              >
+                {isSaving ? "Saving..." : "Save changes"}
+              </button>
+            </div>
+          </form>
+
+          <div className="profile-danger-zone">
+            <div>
+              <h3>Delete account</h3>
+              <p>Permanently remove your account and all associated data.</p>
+            </div>
+
+            <button
+              type="button"
+              className="profile-delete-btn"
+              onClick={handleDelete}
+            >
+              Delete account
+            </button>
+          </div>
+        </section>
+      </section>
+    </main>
   );
 }

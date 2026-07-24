@@ -24,7 +24,7 @@ export const RecentReviews = async (setRecentReview) => {
   try {
     const res = await api.get("/reviews/recent");
     if(res){
-      console.log( res.data.data);
+      // console.log( res.data.data);
     setRecentReview(res.data.data);
     }
   } catch (err) {
@@ -36,7 +36,7 @@ export const RecentReviews = async (setRecentReview) => {
 export const getReviewById=async(id,setReview)=>{
   try{
     const res=await api.get(`/reviews/${id}`);
-    console.log(res.data.data.result.result);
+    // console.log(res.data.data.result.result);
     setReview(res.data.data.result.result);  
    }catch(err){
     throw err;

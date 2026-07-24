@@ -22,12 +22,6 @@ function App() {
           <Route path="/generate" element={<Generate />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-
-        {/* <Route path="/profile" element={<LandingPage/>} />
-        <Route path="/generate" element={<Generate/>} /> */}
-
-        {/* <Route path="/signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} /> */}
       </Routes>
     </>
   );
