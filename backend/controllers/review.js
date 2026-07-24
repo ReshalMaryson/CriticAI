@@ -88,11 +88,32 @@ exports.getRecentReviews = async (req, res) => {
       records: reviews.length,
       data: reviews,
     });
-    console.log(req.id);
     
   } catch (err) {
-    console.error(err);
 
+    res.status(500).json({
+      status: false,
+      message: "Server Error",
+      error: err.message,
+    });
+  }
+};
+
+// get all reviews of logged in user
+exports.getUserReviews = async (req, res) => {
+    console.log(req.id);
+  try {
+    const reviews = await Review.find({ userId: req.id })
+      .populate("userId")
+      .sort({ createdAt: -1 })
+
+    res.status(200).json({
+      status: true,
+      message: "reviews fetched successfully",
+      records: reviews.length,
+      data: reviews,
+    });
+  } catch (err) {
     res.status(500).json({
       status: false,
       message: "Server Error",

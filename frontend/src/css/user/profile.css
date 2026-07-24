@@ -73,6 +73,15 @@
   display: flex;
   gap: 13px;
   color: #ffffff;
+  border: 1px solid rgba(245, 245, 245, 0.274);
+  border-radius: 10px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: 200ms ease-out;
+}
+.profile-history:hover {
+  border: 1px solid rgb(245, 245, 245);
+  transition: 200ms ease-in;
 }
 
 .history-icon {
@@ -120,6 +129,12 @@
 .profile-content {
   padding: 54px 60px;
 }
+
+/* --------------- */
+.profile-content.hide {
+  display: none;
+}
+/* --------------- */
 
 .profile-content h2 {
   margin: 0;

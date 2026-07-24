@@ -27,10 +27,6 @@ export default function Generate() {
     RecentReviews(setRecentReview);
   }, []);
 
-  function spitId(id) {
-    console.log(id);
-  }
-
   useEffect(() => {
     if (code) {
       setPlaceholder("");

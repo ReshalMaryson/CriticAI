@@ -5,7 +5,7 @@ const router = express.Router();
 const {getallReviews,
     getRecentReviews,
     deleteReview,
-    getReviewById}=require("../controllers/review")
+    getReviewById,getUserReviews}=require("../controllers/review")
 
 //middlewares
 const verifyToken = require("../middlewares/auth/verifyJWT");
@@ -13,6 +13,9 @@ const verifyToken = require("../middlewares/auth/verifyJWT");
 
 // get all reviews.
 router.get("/",verifyToken,getallReviews);
+
+// get all reviews of logged in user
+router.get("/user",verifyToken,getUserReviews);
 
 // get 5 most recent reviews of logged in user
 router.get("/recent",verifyToken,getRecentReviews);

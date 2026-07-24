@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 // components
 import Login from "./components/auth/login";
-import Profile from "./components/user/profile";
+import Profile from "./components/user/profile/profile";
 import Header from "./components/header";
 
 import LandingPage from "./components/landingPage/LandingPage";
@@ -14,9 +14,8 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<LandingPage/>} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-
 
         <Route element={<RequireAuth />}>
           <Route path="/generate" element={<Generate />} />

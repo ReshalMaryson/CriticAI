@@ -31,6 +31,22 @@ export const RecentReviews = async (setRecentReview) => {
     throw err;
   }
 };
+// get all reviews of logged in user
+export const userReviews = async (setUserReview) => {
+  try {
+    const res = await api.get("/reviews/user");
+    const keyword=true;
+    if(res){
+    //  console.log(res.data.data.result.result.title);
+
+      setUserReview(res.data.data);
+      return keyword;
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
 
 // get review by id
 export const getReviewById=async(id,setReview)=>{
