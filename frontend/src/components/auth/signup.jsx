@@ -11,8 +11,6 @@ export default function SignUp() {
     name: "",
     email: "",
     password: "",
-    roleid: "6a3b7831101901768c31d17d", // cashier role id
-    phone: "",
   });
 
   const [loading, setLoading] = useState(false);

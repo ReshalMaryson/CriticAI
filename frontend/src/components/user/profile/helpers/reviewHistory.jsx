@@ -1,8 +1,9 @@
+import "../../../../css/user/reviewHistory.css";
 import { useEffect, useState } from "react";
-
-import { userReviews } from "../../../generate/controller/generateController";
-
 import ReviewResponse from "../../../generate/helpers/reviewResponse";
+
+// controller
+import { userReviews } from "../../../generate/controller/generateController";
 
 export default function ReviewHistory() {
   const [userReview, setUserReviews] = useState([]);
@@ -17,13 +18,6 @@ export default function ReviewHistory() {
   useEffect(() => {
     loadResources();
   }, []);
-
-  useEffect(() => {
-    if (userReview.length > 0 && responseKeyword) {
-      console.log(userReview);
-      console.log(responseKeyword);
-    }
-  }, [userReview, responseKeyword]);
 
   function toggleExpanded(id) {
     setExpandedId((current) => (current === id ? null : id));
@@ -48,17 +42,14 @@ export default function ReviewHistory() {
       {userReview.length > 0 ? (
         userReview.map((entry) => {
           const data = entry.result?.result;
-          if (!data) return null; // skip malformed/incomplete entries
+          if (!data) return null;
 
           const isExpanded = expandedId === entry._id;
 
           return (
-            <div
-              key={entry._id}
-              className={`review-history-item ${isExpanded ? "expanded" : ""}`}
-            >
+            <div key={entry._id} className="review-history-item">
               <div
-                className="review-history-header"
+                className={`review-history-header ${isExpanded ? "active" : ""}`}
                 onClick={() => toggleExpanded(entry._id)}
               >
                 <span className="review-history-title">{data.title}</span>
@@ -71,11 +62,11 @@ export default function ReviewHistory() {
                 </span>
               </div>
 
-              {isExpanded && (
-                <div className="review-history-body">
-                  <ReviewResponse review={data} keyword={true} />
-                </div>
-              )}
+              <div
+                className={`review-history-body ${isExpanded ? "active" : ""}`}
+              >
+                <ReviewResponse review={data} keyword={true} />
+              </div>
             </div>
           );
         })
