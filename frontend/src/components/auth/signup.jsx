@@ -1,6 +1,8 @@
+// import "../../css/auth/signup.css";
+import "../../css/auth/signup.css";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // controller
 import { signUp } from "./controllers/authControllers";
@@ -16,7 +18,6 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // assign the values of
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,73 +25,73 @@ export default function SignUp() {
     });
   };
 
-  // form submit
   const handleSubmit = (e) => {
     signUp(e, navigate, formData, setFormData, setMessage, setLoading);
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Sign Up</h2>
+    <main className="signup-page">
+      <div className="signup-card">
+        <p className="signup-brand">
+          Critic<span>AI</span>
+        </p>
 
-      <form
-        style={styles.form}
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
-        <input
-          type="text"
-          name="name"
-          placeholder="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <h1>Create your account</h1>
+        <p className="signup-subtitle">
+          Start reviewing your code smarter, in seconds.
+        </p>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <div className="signup-field">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
+          <div className="signup-field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleChange}
-        />
+          <div className="signup-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Create a password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Signing up..." : "Sign Up"}
-        </button>
-      </form>
+          {/* {message && <p className="signup-message">{message}</p>} */}
 
-      {message && <p>{message}</p>}
-    </div>
+          <button type="submit" className="signup-btn" disabled={loading}>
+            {loading ? "Signing up..." : "Sign Up"}
+          </button>
+        </form>
+
+        <p className="signup-footer">
+          Already have an account? <Link to="/login">Log in</Link>
+        </p>
+      </div>
+    </main>
   );
 }
-
-const styles = {
-  container: {
-    width: "300px",
-    margin: "50px auto",
-    textAlign: "center",
-    fontFamily: "Arial",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-  },
-};

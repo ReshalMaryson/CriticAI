@@ -55,17 +55,13 @@ const validate = (formData) => {
   if (
     !formData.name ||
     !formData.email ||
-    !formData.password ||
-    !formData.phone
+    !formData.password 
   ) {
     return "All fields are required";
   }
 
   if (formData.password.length < 6) {
     return "Password must be at least 6 characters";
-  }
-  if (formData.phone.length != 11) {
-    return "Phone must be of 11 digits";
   }
 
   const emailRegex = /\S+@\S+\.\S+/;
@@ -96,7 +92,7 @@ export const signUp = async (
   setLoading(true);
   setMessage("");
   try {
-    const res = await api.post("http://localhost:8000/users", formData, {
+    const res = await api.post("/users", formData, {
       headers: { "Content-Type": "application/json" },
     });
 

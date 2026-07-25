@@ -1,6 +1,7 @@
-import "../../css/login.css";
+import "../../css/auth/login.css";
+
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { useGoogleLogin } from "@react-oauth/google";
 
@@ -94,6 +95,14 @@ export default function Login() {
             Continue with Google
           </button>{" "}
         </form>
+        <div className="sign-up-message">
+          <p>
+            dont have an account?{" "}
+            <Link to={"/signup"} style={{ color: "white" }}>
+              Sign-Up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
