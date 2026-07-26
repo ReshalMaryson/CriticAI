@@ -95,3 +95,104 @@ exports.getVerifiedUser = async (req, res) => {
     });
   }
 };
+
+// delete logged in user's account and delete its current token
+exports.deleteUser = async (req, res) => {
+  try {
+    const Id = new mongoose.Types.ObjectId(req.params.id);
+    if (!Id) {
+      return res.status(400).json({ message: "invalid parameter Id" });
+    }
+
+    const deleteduser = await User.findByIdAndDelete({ _id: Id });
+    if (!deleteduser) {
+      return res.status(404).json({
+        status: "failure",
+        message: `User not found with id: ${Id}`,
+      });
+    }
+
+    // clear the cookies on the client side.
+    res.clearCookie("token");
+    res.clearCookie("refreshToken");
+
+    return res.status(200).json({
+      status: "success",
+      message: "user deleted",
+      data: deleteduser._id,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "failure",
+      message: "Server Error " + err.message,
+    });
+  }
+};
+
+// delete user's account and delete all its token
+exports.deleteAUser = async (req, res) => {
+  try {
+    const Id = new mongoose.Types.ObjectId(req.params.id);
+    if (!Id) {
+      return res.status(400).json({ message: "invalid parameter Id" });
+    }
+
+    const deleteduser = await User.findByIdAndDelete({ _id: Id });
+
+    if (!deleteduser) {
+      return res.status(404).json({
+        status: "failure",
+        message: `User not found with id: ${Id}`,
+      });
+    }
+
+    const tokens = await Tokens.deleteMany({ user: Id });
+
+    return res.status(200).json({
+      status: "success",
+      message: "user deleted",
+      tokens: tokens.deletedCount > 0 ? true : false,
+      data: deleteduser._id,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "failure",
+      message: "Server Error " + err.message,
+    });
+  }
+};
+
+//update user
+exports.updateUser = async (req, res) => {
+  try {
+    const Id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(Id)) {
+      return res.status(400).json({ message: "invalid Id" });
+    }
+
+    const payload = {
+      name: req.body.name
+    };
+    // update in the DB
+    const userupdated = await User.findByIdAndUpdate(Id, payload, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!userupdated) {
+      return res.status(404).json({
+        status: "faliure",
+        message: "failed to update/User not Found",
+      });
+    }
+
+    return res
+      .status(200)
+      .json({ status: "success", message: "updated", user: userupdated });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: "failure", message: "server error " + err.message });
+  }
+};
