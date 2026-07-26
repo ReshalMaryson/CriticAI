@@ -4,12 +4,9 @@ import api from "../../../api/axios";
 export const getUser = async (setUser) => {
   try {
     const res = await api.get(`/users/me`);
-    // if (res.data.user.roleid.role == "admin") {
-    //   console.log("not a consumer");
-    // }
+    // console.log(res.data);
     setUser(res.data.user);
-
-    // console.log(res.data.user);
+ 
   } catch (err) {
     console.log(err.response?.data || err.message);
     console.log(err);
@@ -43,7 +40,6 @@ export const deleteAccount = async (id, logoutReq, navigate, contextEmpty) => {
     if (res.status == 200) {
       logoutReq(navigate, contextEmpty);
     }
-    // console.log(res)
   } catch (err) {
     console.log(err);
   }

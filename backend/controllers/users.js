@@ -97,7 +97,7 @@ exports.getVerifiedUser = async (req, res) => {
 };
 
 // delete logged in user's account and delete its current token
-exports.deleteUser = async (req, res) => {
+exports.deleteUserAcc = async (req, res) => {
   try {
     const Id = new mongoose.Types.ObjectId(req.params.id);
     if (!Id) {
@@ -172,7 +172,8 @@ exports.updateUser = async (req, res) => {
     }
 
     const payload = {
-      name: req.body.name
+      name: req.body.name,
+      email:req.body.email
     };
     // update in the DB
     const userupdated = await User.findByIdAndUpdate(Id, payload, {

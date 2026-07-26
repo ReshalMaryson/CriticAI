@@ -41,8 +41,8 @@ export const googleLoginAttempt = async (accessToken, navigate, login) => {
 export const logoutAttempt = async (navigate, logout) => {
   try {
     await api.post("/auth/logout");
+    navigate("/");    
     logout();
-    navigate("/");
   } catch (err) {
     console.log(err.response?.data || err.message);
   }

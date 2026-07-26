@@ -39,5 +39,4 @@ server.use("/reviews",reviewRoutes)
 //server start
 server.listen(5000, () => {
   console.log("live");
-  //   console.log(mongoose.modelNames());
 });

@@ -141,7 +141,7 @@ exports.refreshToken = async (req, res) => {
     // set new access token in cookies
     res.cookie("token", newAccessToken, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "strict",
       maxAge: 3 * 60 * 1000,
     });

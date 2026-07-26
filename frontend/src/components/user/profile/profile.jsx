@@ -2,6 +2,8 @@ import "../../../css/user/profile.css";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/authContext";
+
+//controllers
 import { logoutAttempt } from "../../auth/controllers/authControllers";
 import {
   deleteAccount,
@@ -28,6 +30,7 @@ export default function Profile() {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState("");
 
+  // load profile data on mount
   useEffect(() => {
     getUser(setUser);
   }, []);
@@ -38,9 +41,12 @@ export default function Profile() {
         name: user.name || "",
         email: user.email || "",
       });
+
+      console.log(user);
     }
   }, [user]);
 
+  // for input fields
   function handleChange(event) {
     setUpdateData((previousData) => ({
       ...previousData,
@@ -50,6 +56,7 @@ export default function Profile() {
     setMessage("");
   }
 
+  // update button
   async function handleSave(event) {
     event.preventDefault();
 
@@ -57,13 +64,19 @@ export default function Profile() {
 
     setIsSaving(true);
     setMessage("");
-
-    await updateUser(user._id, updateData, setUser);
+    const result = await updateUser(user._id, updateData, setUser);
 
     setIsSaving(false);
-    setMessage("Your profile has been updated.");
+    setMessage(
+      result?.success
+        ? "Your profile has been updated."
+        : "Something went wrong.",
+    );
+
+    setTimeout(() => setMessage(""), 2000);
   }
 
+  // delete
   function handleDelete() {
     const confirmed = window.confirm(
       "Are you sure you want to delete your CriticAI account? This cannot be undone.",
@@ -71,6 +84,7 @@ export default function Profile() {
 
     if (confirmed && user?._id) {
       deleteAccount(user._id, logoutAttempt, navigate, logout);
+      console.log(user._id);
     }
   }
 
@@ -84,6 +98,7 @@ export default function Profile() {
     setActivePersonalInfo(true);
   }
 
+  //condional render
   if (!user) {
     return (
       <main className="profile-page">
@@ -145,7 +160,12 @@ export default function Profile() {
               account.
             </p>
 
-            <form className="profile-form" onSubmit={handleSave}>
+            <form
+              className="profile-form"
+              onSubmit={(e) => {
+                handleSave(e);
+              }}
+            >
               <div className="profile-form-heading">
                 <div>
                   <h3>Personal information</h3>

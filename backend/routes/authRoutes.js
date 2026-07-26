@@ -19,7 +19,7 @@ router.post("/google",GoogleLogin);
 router.post("/logout", verifyToken,Logout);
 
 // -------------refresh token route----------------
-router.post("/refresh", verifyToken,refreshToken);
+router.post("/refresh",refreshToken);
 
 
 

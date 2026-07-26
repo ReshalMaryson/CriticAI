@@ -5,6 +5,11 @@ const api = axios.create({
   withCredentials: true,
 });
 
+let onSessionExpired = () => {};
+export const registerSessionExpiredHandler = (fn) => {
+  onSessionExpired = fn;
+};
+
 // interceptor for Refresh Token
 api.interceptors.response.use(
   (response) => response,
@@ -21,10 +26,13 @@ api.interceptors.response.use(
         originalRequest._retry = true;
         await api.post("/auth/refresh");
         return api(originalRequest);
-      } catch {
-        return Promise.reject(error);
+      } catch (refreshError) {
+        onSessionExpired();
+        return Promise.reject(refreshError);
       }
     }
+
+    return Promise.reject(error);
   },
 );
 

@@ -1,10 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import api, { registerSessionExpiredHandler } from "../api/axios";
 
-export const AuthContext = createContext(); // this creates an empty context box,like an empty notice board.
+export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const login = (userData) => setUser(userData);
   const logout = () => setUser(null);
@@ -18,15 +21,23 @@ export default function AuthProvider({ children }) {
       }
     } catch (err) {
       logout();
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
     getAuthUser();
+
+    registerSessionExpiredHandler(() => {
+      logout();
+      navigate("/login", { replace: true });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

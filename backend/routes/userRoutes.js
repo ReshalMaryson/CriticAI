@@ -6,20 +6,33 @@ const {
   getAllUsers,
   createUser,
   getVerifiedUser,
+  deleteUserAcc,
+  deleteAUser,
+  updateUser
 } = require("../controllers/users");
 
-// middleware
+// middlewares
 const verifyToken = require("../middlewares/auth/verifyJWT");
 const emailExists = require("../middlewares/user/emailExists");
 const {isAdmin} = require("../middlewares/auth/isAdminMiddleware");
 
-//get all users
-router.get("/", verifyToken,isAdmin, getAllUsers);
 
 // get the details of JWT verified user
 router.get("/me", verifyToken, getVerifiedUser);
 
+//get all users
+router.get("/", verifyToken,isAdmin, getAllUsers);
+
 //create user
 router.post("/",emailExists,createUser);
+
+// delete logged in user's account and delete its current token
+router.delete("/:id", verifyToken,deleteUserAcc);
+
+// delete a single user
+router.delete("/user/:id", verifyToken, deleteAUser);
+
+// update all details of user
+router.put("/:id",verifyToken,updateUser);
 
 module.exports = router;
