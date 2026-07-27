@@ -8,6 +8,7 @@ export const getUser = async (setUser) => {
     setUser(res.data.user);
  
   } catch (err) {
+    //what to do for these?? cuz they are still throwing error of 401 on console
     console.log(err.response?.data || err.message);
     console.log(err);
   }
