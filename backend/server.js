@@ -18,7 +18,7 @@ const reviewRoutes=require("./routes/reviewRoutes");
 //cors
 server.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://critic-ai-lemon.vercel.app",
     credentials: true,
   }),
 );
@@ -37,6 +37,7 @@ server.use("/api", apiRoutes);
 server.use("/reviews",reviewRoutes)
 
 //server start
-server.listen(5000, () => {
-  console.log("live");
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`live on port ${PORT}`);
 });
