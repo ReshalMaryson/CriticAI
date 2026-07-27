@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { useGoogleLogin } from "@react-oauth/google";
 
-// controllers
+// Controllers
 import {
   loginAttempt,
   googleLoginAttempt,
