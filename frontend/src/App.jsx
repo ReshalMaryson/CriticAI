@@ -6,7 +6,7 @@ import Profile from "./components/user/profile/profile";
 import Header from "./components/header";
 import SignUp from "./components/auth/signup";
 
-import LandingPage from "./components/landingPage/LandingPage";
+import LandingPage from "./components/landingPage/landingPage";
 import Generate from "./components/generate/generate";
 import RequireAuth from "./components/middleware/requireAuth";
 
