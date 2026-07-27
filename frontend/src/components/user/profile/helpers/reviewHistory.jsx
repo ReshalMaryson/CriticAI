@@ -39,6 +39,7 @@ export default function ReviewHistory() {
 
   return (
     <div className="review-history-list">
+      <p className="heading-history">History</p>
       {userReview.length > 0 ? (
         userReview.map((entry) => {
           const data = entry.result?.result;

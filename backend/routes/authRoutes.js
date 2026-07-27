@@ -21,6 +21,4 @@ router.post("/logout", verifyToken,Logout);
 // -------------refresh token route----------------
 router.post("/refresh",refreshToken);
 
-
-
 module.exports = router;
