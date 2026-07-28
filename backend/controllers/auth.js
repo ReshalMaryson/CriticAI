@@ -58,7 +58,7 @@ exports.Login = async (req, res) => {
     // save access token in cookie
     res.cookie("token", accessToken, {
       httpOnly: true,
-      secure: false, // false for dev...true for deploy
+      secure: true, // false for dev...true for deploy
       sameSite: "strict",
       maxAge: 3 * 60 * 1000, // mins* secs in mins * ms
     });
@@ -66,7 +66,7 @@ exports.Login = async (req, res) => {
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false, // false for dev...true for deploy
+      secure: true, // false for dev...true for deploy
       sameSite: "strict",
       maxAge: 1 * 24 * 60 * 60 * 1000, // days * hours per day*mins in hours* secs in mins * ms
     });
@@ -141,7 +141,7 @@ exports.refreshToken = async (req, res) => {
     // set new access token in cookies
     res.cookie("token", newAccessToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "strict",
       maxAge: 3 * 60 * 1000,
     });
