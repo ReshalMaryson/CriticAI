@@ -59,7 +59,7 @@ exports.Login = async (req, res) => {
     res.cookie("token", accessToken, {
       httpOnly: true,
       secure: true, // false for dev...true for deploy
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 3 * 60 * 1000, // mins* secs in mins * ms
     });
 
@@ -67,7 +67,7 @@ exports.Login = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true, // false for dev...true for deploy
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 1 * 24 * 60 * 60 * 1000, // days * hours per day*mins in hours* secs in mins * ms
     });
 
@@ -142,7 +142,7 @@ exports.refreshToken = async (req, res) => {
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 3 * 60 * 1000,
     });
 
@@ -218,16 +218,16 @@ exports.GoogleLogin = async (req, res) => {
     // save access token in cookie
     res.cookie("token", jwtAccessToken, {
       httpOnly: true,
-      secure: false, // false for dev...true for deploy
-      sameSite: "strict",
+      secure: true, // false for dev...true for deploy
+      sameSite: "nonex",
       maxAge: 3 * 60 * 1000,
     });
 
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false, // false for dev...true for deploy
-      sameSite: "strict",
+      secure: true, // false for dev...true for deploy
+      sameSite: "none",
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
