@@ -15,7 +15,7 @@ export default function Header() {
       </Link>
 
       <nav className="header-links">
-        <Link to="/">How it Works</Link>
+        <Link to="/contact">Contact</Link>
         {/* <Link to="/">Pricing</Link>*/}
 
         {user ? (

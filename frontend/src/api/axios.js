@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://criticai.onrender.com",
-  withCredentials: true,
+    withCredentials: true,
 });
 
 let onSessionExpired = () => {};
