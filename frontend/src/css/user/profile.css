@@ -303,6 +303,7 @@
   border-radius: 18px;
   color: #909090;
   text-align: center;
+  font-size: 1rem;
 }
 
 @media (max-width: 850px) {

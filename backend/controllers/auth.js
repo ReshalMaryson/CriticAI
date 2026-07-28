@@ -24,7 +24,7 @@ exports.Login = async (req, res) => {
     // check the password
     const verified = await bcrypt.compare(password, user.password);
     if (!verified) {
-      return res.status(400).json({ message: "invalid credentials" });
+      return res.status(400).json({ message: "invalid email or password" });
     }
 
     // creating JWT for current user logged in.
@@ -58,17 +58,17 @@ exports.Login = async (req, res) => {
     // save access token in cookie
     res.cookie("token", accessToken, {
       httpOnly: true,
-      secure: true, // false for dev...true for deploy
+      secure: true, 
       sameSite: "none",
-      maxAge: 3 * 60 * 1000, // mins* secs in mins * ms
+      maxAge: 3 * 60 * 1000, 
     });
 
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true, // false for dev...true for deploy
+      secure: true, 
       sameSite: "none",
-      maxAge: 1 * 24 * 60 * 60 * 1000, // days * hours per day*mins in hours* secs in mins * ms
+      maxAge: 1 * 24 * 60 * 60 * 1000, 
     });
 
     // payload for the response
@@ -85,6 +85,7 @@ exports.Login = async (req, res) => {
   }
 };
 
+// logout
 exports.Logout = async (req, res) => {
   try {
     // get current refresh token
@@ -141,7 +142,7 @@ exports.refreshToken = async (req, res) => {
     // set new access token in cookies
     res.cookie("token", newAccessToken, {
       httpOnly: true,
-      secure: true,
+      secure: true, 
       sameSite: "none",
       maxAge: 3 * 60 * 1000,
     });
@@ -156,6 +157,7 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
+// google login
 exports.GoogleLogin = async (req, res) => {
   try {
     const { accessToken } = req.body;
@@ -174,7 +176,7 @@ exports.GoogleLogin = async (req, res) => {
     }
 
     const payload = await googleRes.json();
-    // payload: { sub, email, name, picture, email_verified }
+  
 
     // find or create user
     let user = await Users.findOne({ email: payload.email });
@@ -194,7 +196,7 @@ exports.GoogleLogin = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1m", // initial jwt expriy time for testing purpose.
+        expiresIn: "1m", 
       },
     );
 
@@ -218,7 +220,7 @@ exports.GoogleLogin = async (req, res) => {
     // save access token in cookie
     res.cookie("token", jwtAccessToken, {
       httpOnly: true,
-      secure: true, // false for dev...true for deploy
+      secure: true, 
       sameSite: "none",
       maxAge: 3 * 60 * 1000,
     });
@@ -226,7 +228,7 @@ exports.GoogleLogin = async (req, res) => {
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true, // false for dev...true for deploy
+      secure: true, 
       sameSite: "none",
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });

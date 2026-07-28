@@ -18,6 +18,9 @@ export default function Profile() {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
 
+  //error states
+  const [profileFeildsError, setProfileFeildsError] = useState("");
+
   // UI controls
   const [activeReviewHistory, setActiveReviewHistory] = useState(false);
   const [activePersonalInfo, setActivePersonalInfo] = useState(true);
@@ -57,10 +60,14 @@ export default function Profile() {
   }
 
   // update button
-  async function handleSave(event) {
+  async function handleSave(event, updateData) {
     event.preventDefault();
-
-    if (!user?._id || !updateData.name.trim()) return;
+    if (updateData.name.trim() === "" || updateData.email.trim() === "") {
+      setMessage("Missing required fields.");
+      setTimeout(() => setMessage(""), 2000);
+      return;
+    }
+    // if (!user?._id || !updateData.name.trim()) return;
 
     setIsSaving(true);
     setMessage("");
@@ -148,7 +155,7 @@ export default function Profile() {
         </aside>
 
         {activeReviewHistory ? (
-          <ReviewHistory onBack={showPersonalInfo} />
+          <ReviewHistory showPersonalInfo={showPersonalInfo} />
         ) : (
           <section className="profile-content">
             <p className="profile-eyebrow">ACCOUNT SETTINGS</p>
@@ -163,7 +170,7 @@ export default function Profile() {
             <form
               className="profile-form"
               onSubmit={(e) => {
-                handleSave(e);
+                handleSave(e, updateData);
               }}
             >
               <div className="profile-form-heading">
@@ -182,7 +189,7 @@ export default function Profile() {
                   value={updateData.name}
                   onChange={handleChange}
                   placeholder="Enter your name"
-                  required
+                  // required
                 />
               </div>
 
@@ -197,16 +204,29 @@ export default function Profile() {
                 />
                 <small>Email address cannot be changed from this page.</small>
               </div>
-
+              {/* <div className="field-error">{profileFeildsError}</div> */}
               <div className="profile-form-actions">
-                {message && <p className="profile-success">{message}</p>}
+                {message && (
+                  <p
+                    style={{
+                      color:
+                        message === "Missing required fields."
+                          ? "#fc5744"
+                          : "#c0e687",
+                      transition: "100ms",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {message}
+                  </p>
+                )}
 
                 <button
                   type="submit"
                   className="profile-save-btn"
                   disabled={isSaving}
                 >
-                  {isSaving ? "Saving..." : "Save changes"}
+                  {!isSaving ? "Save changes" : "Saving..."}
                 </button>
               </div>
             </form>

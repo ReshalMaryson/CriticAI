@@ -10,7 +10,6 @@ export const registerSessionExpiredHandler = (fn) => {
   onSessionExpired = fn;
 };
 
-// tracks an in-flight refresh call, shared across concurrent 401s
 let refreshPromise = null;
 
 api.interceptors.response.use(

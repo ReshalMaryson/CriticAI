@@ -141,8 +141,9 @@ export default function Generate() {
                     </div>
                   </div>
                 ))}
-
-                <button className="more-review">More →</button>
+                <Link style={{ textDecoration: "none" }} to={"/profile"}>
+                  <button className="more-review">More →</button>
+                </Link>
               </div>
               <button className="slider-btn" onClick={() => slide("right")}>
                 →

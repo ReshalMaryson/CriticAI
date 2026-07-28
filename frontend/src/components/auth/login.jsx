@@ -1,6 +1,6 @@
 import "../../css/auth/login.css";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -14,6 +14,7 @@ import {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
@@ -29,6 +30,28 @@ export default function Login() {
     },
     onError: () => console.log("Google login failed"),
   });
+
+  // handle login errors
+  async function handlelogin() {
+    setErrorMessage(""); // clear old error first
+    if (email.trim() === "" || password.trim() === "") {
+      setErrorMessage("Missing required fields.");
+      return;
+    }
+    await loginAttempt({ email, password }, navigate, login, setErrorMessage);
+  }
+
+  // clear the message
+  useEffect(() => {
+    if (!errMessage) return;
+    setEmail("");
+    setPassword("");
+    const timer = setTimeout(() => {
+      setErrorMessage("");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [errMessage]);
 
   return (
     <div className="login-page">
@@ -77,21 +100,33 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className="show-errMessage">
+            {errMessage && (
+              <p
+                style={{
+                  color:
+                    errMessage === "Missing required fields."
+                      ? "#fc5744"
+                      : "#c0e687",
+                  transition: "100ms",
+                  fontSize: "0.8rem",
+                }}
+              >
+                {errMessage}
+              </p>
+            )}
+          </div>
           <button
             type="button"
             onClick={() => {
-              loginAttempt(userCredentials, navigate, login);
+              handlelogin();
             }}
           >
             Login
           </button>
           <div className="divider">OR</div>
           {/* google auth button */}
-          <button
-            type="button"
-            className="google-btn"
-            onClick={() => googleLogin()}
-          >
+          <button type="button" className="google-btn" onClick={googleLogin}>
             Continue with Google
           </button>{" "}
         </form>

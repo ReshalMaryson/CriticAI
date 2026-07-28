@@ -5,7 +5,7 @@ import ReviewResponse from "../../../generate/helpers/reviewResponse";
 // controller
 import { userReviews } from "../../../generate/controller/generateController";
 
-export default function ReviewHistory() {
+export default function ReviewHistory({ showPersonalInfo }) {
   const [userReview, setUserReviews] = useState([]);
   const [responseKeyword, setresponseKeyword] = useState(null);
   const [expandedId, setExpandedId] = useState(null);
@@ -39,7 +39,10 @@ export default function ReviewHistory() {
 
   return (
     <div className="review-history-list">
-      <p className="heading-history">History</p>
+      <div className="histroyheader">
+        <p onClick={showPersonalInfo}>←</p>
+        <p className="heading-history">History</p>
+      </div>
       {userReview.length > 0 ? (
         userReview.map((entry) => {
           const data = entry.result?.result;
@@ -72,7 +75,7 @@ export default function ReviewHistory() {
           );
         })
       ) : (
-        <h1>Loading Reviews...</h1>
+        <h1 className="loading-reviews-heading">Loading Reviews...</h1>
       )}
     </div>
   );

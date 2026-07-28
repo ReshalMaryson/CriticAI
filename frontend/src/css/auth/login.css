@@ -130,7 +130,14 @@
   text-decoration: none;
   color: white;
 }
-
+.show-errMessage {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 16px;
+  height: 10px;
+}
 @media (max-width: 900px) {
   .login-page {
     flex-direction: column;

@@ -1,22 +1,23 @@
 import api from "../../../api/axios";
 
 //login
-export const loginAttempt = async (user, navigate, login) => {
+export const loginAttempt = async (user, navigate, login, setErrorMessage) => {
   if (!user.email || !user.password) {
-    alert("enter values");
+    setErrorMessage("Missing required fields.");
     return;
   }
   try {
-    const res = await api.post("/auth/login", user); // returns the user data.
+    const res = await api.post("/auth/login", user);
     login(res.data.data);
 
     navigate("/", {
       replace: true,
-      state: { reloadAfterLogin: true }, 
+      state: { reloadAfterLogin: true },
     });
 
   } catch (err) {
-    console.log(err.response?.data || err.message);
+    const msg = err.response?.data?.message || "Something went wrong. Please try again.";
+    setErrorMessage(msg);
   }
 };
 
@@ -78,19 +79,19 @@ export const signUp = async (
   navigate,
   formData,
   setFormData,
-  setMessage,
+  setErrMessage,
   setLoading,
 ) => {
   e.preventDefault();
 
   const error = validate(formData);
   if (error) {
-    setMessage(error);
+    setErrMessage(error);
     return;
   }
 
   setLoading(true);
-  setMessage("");
+  setErrMessage("");
   try {
     const res = await api.post("/users", formData, {
       headers: { "Content-Type": "application/json" },
