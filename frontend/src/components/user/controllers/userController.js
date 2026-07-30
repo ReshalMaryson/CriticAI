@@ -15,9 +15,9 @@ export const getUser = async (setUser) => {
 };
 
 // update user
-export const updateUser = async (id, updateData, setUser) => {
+export const updateUser = async (updateData, setUser) => {
   try {
-    const res = await api.put(`/users/${id}`, updateData);
+    const res = await api.put("/users/me", updateData);
     if (res.status == 200) {
       if (setUser && typeof setUser === "function") {
         getUser(setUser);
@@ -34,9 +34,10 @@ export const updateUser = async (id, updateData, setUser) => {
 };
 
 //delete logged in user's account
-export const deleteAccount = async (id, logoutReq, navigate, contextEmpty) => {
+export const deleteAccount = async ( logoutReq, navigate, contextEmpty) => {
   try {
-    const res = await api.delete(`/users/${id}`);
+    // const res = await api.delete(`/users/${id}`);
+    const res= await api.delete("/users/me");
 
     if (res.status == 200) {
       logoutReq(navigate, contextEmpty);

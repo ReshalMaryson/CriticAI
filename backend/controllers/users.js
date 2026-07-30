@@ -99,16 +99,12 @@ exports.getVerifiedUser = async (req, res) => {
 // delete logged in user's account and delete its current token
 exports.deleteUserAcc = async (req, res) => {
   try {
-    const Id = new mongoose.Types.ObjectId(req.params.id);
-    if (!Id) {
-      return res.status(400).json({ message: "invalid parameter Id" });
-    }
-
-    const deleteduser = await User.findByIdAndDelete({ _id: Id });
+    const deleteduser = await User.findByIdAndDelete({ _id: req.id });
+    
     if (!deleteduser) {
       return res.status(404).json({
         status: "failure",
-        message: `User not found with id: ${Id}`,
+        message: `User not found with id: ${req.id}`,
       });
     }
 
@@ -130,42 +126,42 @@ exports.deleteUserAcc = async (req, res) => {
 };
 
 // delete user's account and delete all its token
-exports.deleteAUser = async (req, res) => {
-  try {
-    const Id = new mongoose.Types.ObjectId(req.params.id);
-    if (!Id) {
-      return res.status(400).json({ message: "invalid parameter Id" });
-    }
+// exports.deleteAUser = async (req, res) => {
+//   try {
+//     const Id = new mongoose.Types.ObjectId(req.params.id);
+//     if (!Id) {
+//       return res.status(400).json({ message: "invalid parameter Id" });
+//     }
 
-    const deleteduser = await User.findByIdAndDelete({ _id: Id });
+//     const deleteduser = await User.findByIdAndDelete({ _id: Id });
 
-    if (!deleteduser) {
-      return res.status(404).json({
-        status: "failure",
-        message: `User not found with id: ${Id}`,
-      });
-    }
+//     if (!deleteduser) {
+//       return res.status(404).json({
+//         status: "failure",
+//         message: `User not found with id: ${Id}`,
+//       });
+//     }
 
-    const tokens = await Tokens.deleteMany({ user: Id });
+//     const tokens = await Tokens.deleteMany({ user: Id });
 
-    return res.status(200).json({
-      status: "success",
-      message: "user deleted",
-      tokens: tokens.deletedCount > 0 ? true : false,
-      data: deleteduser._id,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      status: "failure",
-      message: "Server Error " + err.message,
-    });
-  }
-};
+//     return res.status(200).json({
+//       status: "success",
+//       message: "user deleted",
+//       tokens: tokens.deletedCount > 0 ? true : false,
+//       data: deleteduser._id,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       status: "failure",
+//       message: "Server Error " + err.message,
+//     });
+//   }
+// };
 
 //update user
 exports.updateUser = async (req, res) => {
   try {
-    const Id = req.params.id;
+    const Id = req.id;
 
     if (!mongoose.Types.ObjectId.isValid(Id)) {
       return res.status(400).json({ message: "invalid Id" });

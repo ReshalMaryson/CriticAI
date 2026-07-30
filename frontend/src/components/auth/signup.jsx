@@ -27,19 +27,16 @@ export default function SignUp() {
   // handle form error and send request for sign - up
   async function handleSubmit(e) {
     e.preventDefault();
-    if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
-      setErrMessage("Missing required fields.");
-      return;
-    }
+    // if (name.trim() == "" || email.trim() == "" || password.trim() == "") {
+    //   setErrMessage("Missing required fields.");
+    //   return;
+    // }
     await signUp(navigate, formData, setFormData, setErrMessage, setLoading);
   }
 
   // clear the message
   useEffect(() => {
     if (!errMessage) return;
-    // formData.name = "";
-    // formData.email = "";
-    // formData.password = "";
     const timer = setTimeout(() => {
       setErrMessage("");
     }, 2000);

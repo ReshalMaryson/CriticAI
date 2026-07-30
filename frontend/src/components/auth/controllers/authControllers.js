@@ -79,15 +79,12 @@ const validate = (formData) => {
 
 // - sign up request
 export const signUp = async (
-  e,
   navigate,
   formData,
   setFormData,
   setErrMessage,
   setLoading,
 ) => {
-  e.preventDefault();
-
   const error = validate(formData);
   if (error) {
     setErrMessage(error);
@@ -106,8 +103,7 @@ export const signUp = async (
       setFormData({
         name: "",
         email: "",
-        password: "",
-        phone: "",
+        password: ""
       });
 
       // direct to login page

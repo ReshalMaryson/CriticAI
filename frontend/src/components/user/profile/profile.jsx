@@ -67,11 +67,9 @@ export default function Profile() {
       setTimeout(() => setMessage(""), 2000);
       return;
     }
-    // if (!user?._id || !updateData.name.trim()) return;
-
     setIsSaving(true);
     setMessage("");
-    const result = await updateUser(user._id, updateData, setUser);
+    const result = await updateUser(updateData, setUser);
 
     setIsSaving(false);
     setMessage(
@@ -88,8 +86,7 @@ export default function Profile() {
     );
 
     if (confirmed && user?._id) {
-      deleteAccount(user._id, logoutAttempt, navigate, logout);
-      console.log(user._id);
+      deleteAccount(logoutAttempt, navigate, logout);
     }
   }
 

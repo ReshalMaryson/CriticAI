@@ -7,7 +7,7 @@ const {
   createUser,
   getVerifiedUser,
   deleteUserAcc,
-  deleteAUser,
+  // deleteAUser,
   updateUser
 } = require("../controllers/users");
 
@@ -27,12 +27,12 @@ router.get("/", verifyToken,isAdmin, getAllUsers);
 router.post("/",emailExists,createUser);
 
 // delete logged in user's account and delete its current token
-router.delete("/:id", verifyToken,deleteUserAcc);
+router.delete("/me", verifyToken,deleteUserAcc);
 
 // delete a single user
-router.delete("/user/:id", verifyToken, deleteAUser);
+// router.delete("/user/:id", verifyToken, deleteAUser);
 
 // update all details of user
-router.put("/:id",verifyToken,updateUser);
+router.put("/me",verifyToken,updateUser);
 
 module.exports = router;
