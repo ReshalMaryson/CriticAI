@@ -1,6 +1,7 @@
 import api from "../../../api/axios";
 
-export const CreateReview=async(code,language)=>{
+// generate a review
+export const CreateReview=async(code,language,setErrorMessage)=>{
   try{
 
     const payload={
@@ -8,14 +9,33 @@ export const CreateReview=async(code,language)=>{
       language
     };
     const res=await api.post("/api/generate",payload);
-    return{
-      success:true,
-      data:res.data.message.result
-    };
-
+    if(res.status == 200){
+    setErrorMessage("");
+      return{
+          success:true,
+          data:res.data.message.result
+        };
+      }
+    
   }catch(err){
-    throw err;
+    const status = err.response?.status;
+
+    if (status === 504) {
+      setErrorMessage("The review is taking longer than expected. Please try again.");
+    } else if (status === 429) {
+      setErrorMessage(err.response?.data?.message || "Too many requests. Please slow down.");
+    } else if (status === 413) {
+      setErrorMessage(err.response?.data?.message || "Your code is too long.");
+    } else if (status === 500) {
+      setErrorMessage("Something went wrong while generating the review.");
+    } else {
+      setErrorMessage("An unexpected error occurred.");
+    }
+
+    return { success: false };
   }
+
+  
 };
 
 

@@ -22,14 +22,14 @@ export const updateUser = async (id, updateData, setUser) => {
       if (setUser && typeof setUser === "function") {
         getUser(setUser);
       }
-      return;
+      return true;
     }
-    console.log(res);
   } catch (err) {
     const errors = err.response?.data?.errors || [];
     errors.forEach((error) => {
       console.log(error.msg);
     });
+    return false
   }
 };
 

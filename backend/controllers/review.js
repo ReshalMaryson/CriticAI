@@ -14,7 +14,7 @@ exports.getallReviews=async(req,res)=>{
      }
 
      // success response 
-     res.status(200).json({
+  return res.status(200).json({
         status:true,
         message:"reviews fetched successfully",
         records:reviews.length,
@@ -22,10 +22,8 @@ exports.getallReviews=async(req,res)=>{
 
      })
 
-    }catch(err){
-        console.log(err);
-        
-        res.status(500).json({
+    }catch(err){        
+      return  res.status(500).json({
             status:false,
             message:"Server Error",
             error:err.message
@@ -54,7 +52,7 @@ exports.getReviewById =async(req,res)=>{
     }
   
    // success response 
-    res.status(200).json({
+   return res.status(200).json({
         status:true,
         message:"review fetched successfully",
         data:review,
@@ -62,7 +60,7 @@ exports.getReviewById =async(req,res)=>{
      })
 
   }catch(err){        
-        res.status(500).json({
+     return res.status(500).json({
             status:false,
             message:"Server Error",
             error:err.message
@@ -70,19 +68,16 @@ exports.getReviewById =async(req,res)=>{
 
   }
 }
-// get the code(prompt) of review.
-exports.getPrompt=async (req,res)=>{}
 
 // get 5 most recent reviews of logged in user
 exports.getRecentReviews = async (req, res) => {
-    console.log(req.id);
   try {
     const reviews = await Review.find({ userId: req.id })
       .populate("userId")
       .sort({ createdAt: -1 })
       .limit(5);
 
-    res.status(200).json({
+   return res.status(200).json({
       status: true,
       message: "Latest reviews fetched successfully",
       records: reviews.length,
@@ -91,7 +86,7 @@ exports.getRecentReviews = async (req, res) => {
     
   } catch (err) {
 
-    res.status(500).json({
+   return res.status(500).json({
       status: false,
       message: "Server Error",
       error: err.message,
@@ -101,20 +96,19 @@ exports.getRecentReviews = async (req, res) => {
 
 // get all reviews of logged in user
 exports.getUserReviews = async (req, res) => {
-    console.log(req.id);
   try {
     const reviews = await Review.find({ userId: req.id })
       .populate("userId")
       .sort({ createdAt: -1 })
 
-    res.status(200).json({
+   return res.status(200).json({
       status: true,
       message: "reviews fetched successfully",
       records: reviews.length,
       data: reviews,
     });
   } catch (err) {
-    res.status(500).json({
+   return res.status(500).json({
       status: false,
       message: "Server Error",
       error: err.message,
@@ -128,13 +122,13 @@ exports.deleteReview=async(req,res)=>{
     const deleted = await Review.deleteMany({});
   
      //success response
-     res.status(200).json({
+    return res.status(200).json({
       status:true,
       message:"successfully deleted records",
       deleted:deleted
      })
   }catch(err){
-   res.status(500).json({
+  return res.status(500).json({
     status:false,
     message:"Server Error : ",
     error:err

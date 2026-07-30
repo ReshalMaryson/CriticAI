@@ -106,7 +106,7 @@ export default function SignUp() {
                 style={{
                   color:
                     errMessage === "Missing required fields."
-                      ? "#fc5744"
+                      ? "#ff7e65"
                       : "#c0e687",
                   transition: "100ms",
                   fontSize: "0.8rem",

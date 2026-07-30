@@ -17,7 +17,7 @@ exports.Login = async (req, res) => {
     const user = await Users.findOne({ email: email }).select("+password");
     if (!user) {
       return res.status(404).json({
-        message: "user not found",
+        message: "Un-Registered Credentials. Please Signup first.",
       });
     }
 
@@ -58,16 +58,16 @@ exports.Login = async (req, res) => {
     // save access token in cookie
     res.cookie("token", accessToken, {
       httpOnly: true,
-      secure:true, 
-      sameSite: "none",
+      secure:false, 
+      sameSite: "strict",
       maxAge: 3 * 60 * 1000, 
     });
 
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure:true, 
-      sameSite: "none",
+      secure:false, 
+      sameSite: "strict",
       maxAge: 1 * 24 * 60 * 60 * 1000, 
     });
 
@@ -142,8 +142,8 @@ exports.refreshToken = async (req, res) => {
     // set new access token in cookies
     res.cookie("token", newAccessToken, {
       httpOnly: true,
-      secure:true, 
-      sameSite: "none",
+         secure:false, 
+      sameSite: "strict",
       maxAge: 3 * 60 * 1000,
     });
 
@@ -220,16 +220,16 @@ exports.GoogleLogin = async (req, res) => {
     // save access token in cookie
     res.cookie("token", jwtAccessToken, {
       httpOnly: true,
-      secure:true, 
-      sameSite: "none",  
+            secure:false, 
+      sameSite: "strict",
       maxAge: 3 * 60 * 1000,
     });
 
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure:true, 
-      sameSite: "none",
+      secure:false, 
+      sameSite: "strict",
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 

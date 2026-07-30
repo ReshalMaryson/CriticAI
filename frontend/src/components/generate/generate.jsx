@@ -21,6 +21,7 @@ export default function Generate() {
   const [code, setCode] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [placeholder, setPlaceholder] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const sliderRef = useRef();
 
   useEffect(() => {
@@ -72,31 +73,60 @@ export default function Generate() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
-
-        <div className="review-actions">
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-          >
-            <option value="javascript">Javascript</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-          </select>
-
-          <button
-            onClick={async () => {
-              setLoading(true);
-              const response = await CreateReview(code, language);
-              if (response.success) {
-                setReview(response.data);
-                RecentReviews(setRecentReview);
-              }
-              setLoading(false);
+        {errorMessage && (
+          <p
+            style={{
+              color: "#ff7e65",
+              marginTop: "10px",
+              textAlign: "center",
+              fontSize: "2rem",
+              transition: "100ms",
+              fontSize: "0.8rem",
             }}
           >
-            {loading ? "Reviewing..." : "Review Code"}
-          </button>
-        </div>
+            - {errorMessage} -
+          </p>
+        )}
+        {code ? (
+          <>
+            <div className="review-actions">
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option value="javascript">Javascript</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+              </select>
+
+              <button
+                disabled={loading}
+                onClick={async () => {
+                  setErrorMessage("");
+                  setLoading(true);
+                  const response = await CreateReview(
+                    code,
+                    language,
+                    setErrorMessage,
+                  );
+                  if (response.success) {
+                    setReview(response.data);
+                    RecentReviews(setRecentReview);
+                    setCode("");
+                  }
+                  setLoading(false);
+                }}
+                style={
+                  loading
+                    ? { backgroundColor: "rgb(59, 57, 57)", color: "white" }
+                    : { backgroundColor: "white" }
+                }
+              >
+                {loading ? "Reviewing..." : "Review Code"}
+              </button>
+            </div>
+          </>
+        ) : null}
       </section>
 
       <section className="recent-section">

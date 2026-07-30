@@ -75,9 +75,7 @@ export default function Profile() {
 
     setIsSaving(false);
     setMessage(
-      result?.success
-        ? "Your profile has been updated."
-        : "Something went wrong.",
+      result ? "Your profile has been updated." : "Something went wrong.",
     );
 
     setTimeout(() => setMessage(""), 2000);
@@ -211,7 +209,7 @@ export default function Profile() {
                     style={{
                       color:
                         message === "Missing required fields."
-                          ? "#fc5744"
+                          ? "#ff7e65"
                           : "#c0e687",
                       transition: "100ms",
                       fontSize: "0.8rem",

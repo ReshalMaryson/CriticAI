@@ -18,13 +18,14 @@ const reviewRoutes=require("./routes/reviewRoutes");
 //cors
 server.use(
   cors({
-    origin: "https://critic-ai-lemon.vercel.app",
+    // origin: "https://critic-ai-lemon.vercel.app",
+  origin:"http://localhost:5173",
     credentials: true,
   }),
 );
 
 //middlewares
-server.use(express.json());
+server.use(express.json({limit:"1mb"}));
 server.use(cookieParser());
 
 // db connect

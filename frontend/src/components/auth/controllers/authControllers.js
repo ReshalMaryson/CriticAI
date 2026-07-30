@@ -7,15 +7,19 @@ export const loginAttempt = async (user, navigate, login, setErrorMessage) => {
     return;
   }
   try {
-    const res = await api.post("/auth/login", user);
-    login(res.data.data);
+    const res = await api.post("/auth/login", user); 
+    if(res.status == 200){
+      login(res.data.data);
 
-    navigate("/", {
-      replace: true,
-      state: { reloadAfterLogin: true },
-    });
+        navigate("/", {
+          replace: true,
+          state: { reloadAfterLogin: true },
+        });
+    }
+  
 
   } catch (err) {
+    console.log(err);
     const msg = err.response?.data?.message || "Something went wrong. Please try again.";
     setErrorMessage(msg);
   }
