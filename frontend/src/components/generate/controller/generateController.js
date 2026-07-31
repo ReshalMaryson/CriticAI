@@ -51,19 +51,29 @@ export const RecentReviews = async (setRecentReview) => {
 };
 
 // get all reviews of logged in user
-export const userReviews = async (setUserReview) => {
+export const userReviews = async (setUserReview, setMessage, page = 1, append = false) => {
   try {
-    const res = await api.get("/reviews/user");
-    const keyword=true;
-    if(res){
-      setUserReview(res.data.data);
-      return keyword;
+    const res = await api.get(`/reviews/user?page=${page}`);
+
+    if (res.data.records === 0 && page === 1) {
+      setMessage(res.data.message);
+      return { success: true, hasMore: false };
     }
+
+    if (append) {
+      setUserReview((prev) => [...prev, ...res.data.data]);
+    } else {
+      setUserReview(res.data.data);
+    }
+
+    const hasMore = page < res.data.totalPages;
+
+    return { success: true, hasMore, currentPage: res.data.currentPage };
+
   } catch (err) {
     throw err;
   }
 };
-
 
 // get review by id
 export const getReviewById=async(id,setReview)=>{

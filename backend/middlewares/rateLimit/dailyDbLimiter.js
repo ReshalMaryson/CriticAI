@@ -1,6 +1,6 @@
 const Review = require("../../models/reviewSchema");
 
-const DAILY_LIMIT = 3;
+const DAILY_LIMIT = 50;
 
 async function dailyDbLimiter(req, res, next) {
   try {
