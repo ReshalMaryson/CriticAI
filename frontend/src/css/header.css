@@ -130,6 +130,10 @@
 @media (max-width: 700px) {
   .hamburger {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    right: -25px;
   }
   .header .hamburger span {
     background-color: #ffffff !important;
@@ -165,8 +169,7 @@
     font-size: 17px;
     border-bottom: 1px solid #343333;
     color: white;
-    font-size: 2rem;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.5rem;
   }
 
   .header-links .login-btn {
