@@ -6,10 +6,7 @@
   padding: 0 8%;
   background: #050505;
   border-bottom: 1px solid #111;
-   font-family:
-    Inter,
-    system-ui,
-    sans-serif;
+  font-family: Inter, system-ui, sans-serif;
 }
 
 .logo {
@@ -68,6 +65,58 @@
   color: black;
 }
 
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+.header .hamburger span {
+  background-color: #ffffff !important;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s ease;
+  color: white;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.nav-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
 @media (max-width: 900px) {
   .header {
     padding: 0 5%;
@@ -79,8 +128,55 @@
 }
 
 @media (max-width: 700px) {
-  .header-links a:not(.login-btn) {
-    display: none;
+  .hamburger {
+    display: flex;
+  }
+  .header .hamburger span {
+    background-color: #ffffff !important;
+  }
+  .header-links {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    height: 100vh;
+    width: 70%;
+    max-width: 300px;
+    background: #0a0a0a;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 90px 30px 30px;
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    z-index: 1000;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+  }
+
+  .header-links.open {
+    transform: translateX(0);
+  }
+
+  .header-links a {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    font-size: 17px;
+    border-bottom: 1px solid #343333;
+    color: white;
+    font-size: 2rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .header-links .login-btn {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .logout-btn {
+    margin-top: 20px;
+    width: 100%;
   }
 
   .logo {

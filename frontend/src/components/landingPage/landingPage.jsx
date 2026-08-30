@@ -25,12 +25,6 @@ export default function LandingPage() {
         <section className="hero">
           <div className="hero-left">
             <div className="badge">AI POWERED CODE REVIEW</div>
-            {/* 
-            <h1>
-              Ship better code.
-              <br />
-              Before bugs ship with it.
-            </h1> */}
             <AnimatedHeadline />
             <p>
               CriticAI analyzes your code like a senior engineer. Find hidden
@@ -64,7 +58,8 @@ try {
       if(!code ||code.trim()===""){
         res.status(400).json({
           status:false,
-          message:"code and lanuage are required",
+          message:"code and lanuage are
+          required",
           error:"invalid request body"
          })}
 }`}

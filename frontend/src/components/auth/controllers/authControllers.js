@@ -114,7 +114,7 @@ export const signUp = async (
       ...prev,
       password: "",
     }));
-    setMessage(err.response?.data?.message || "Something went wrong");
+    setErrMessage(err.response?.data?.message || "Something went wrong");
   } finally {
     setLoading(false);
   }

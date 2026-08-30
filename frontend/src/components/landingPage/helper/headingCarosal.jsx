@@ -4,7 +4,7 @@ const headlines = [
   "Ship better code.\nBefore bugs ship with it.",
   "Catch bugs early.\nBefore they reach production.",
   "Review code like a senior engineer.\nInstantly, every time.",
-  "Find vulnerabilities.Before attackers \nfind them first.",
+  "Find vulnerabilities.\nBefore attackers \nfind them first.",
   "Cleaner architecture.\nOne review at a time.",
 ];
 
