@@ -54,15 +54,15 @@ export default function LandingPage() {
               <pre>
                 {`exports.Generate = async (req, res) => 
 {
-  try {
-      const {code, language} = req.body;  
-        if(!code ||code.trim()===""){
-          res.status(400).json({
-            status:false,
-            message:"code and lanuage are
-            required",
-            error:"invalid request body"
-          })}
+try {
+    const {code, language} = req.body;  
+      if(!code ||code.trim()===""){
+        res.status(400).json({
+          status:false,
+          message:"code and lanuage are
+          required",
+          error:"invalid request body"
+        })}
 }`}
               </pre>
             </div>
