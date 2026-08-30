@@ -128,3 +128,49 @@
   text-align: center;
   font-size: 1.2rem;
 }
+.load-more-btn {
+  width: 12%;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+}
+
+@media (max-width: 700px) {
+  .review-history-list {
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+  }
+  .histroyheader {
+    width: 100%;
+  }
+
+  .heading-history {
+    font-size: 1.5rem;
+  }
+
+  .histroyheader p:nth-child(1) {
+    font-size: 22px;
+  }
+  .review-history-item {
+    width: 100%;
+  }
+  .review-history-date {
+    display: none;
+  }
+
+  .review-history-title {
+    font-size: 14px;
+  }
+
+  .review-history-language,
+  .review-history-score {
+    font-size: 12px;
+  }
+  .load-more-btn {
+    font-size: 0.7rem;
+    width: 20%;
+  }
+}

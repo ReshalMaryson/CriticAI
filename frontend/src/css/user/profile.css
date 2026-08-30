@@ -12,7 +12,7 @@
   min-height: 620px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 310px 1fr;
+  grid-template-columns: 310px minmax(0, 1fr);
   background: #090909;
   border: 1px solid #202020;
   border-radius: 18px;
@@ -312,7 +312,8 @@
   }
 
   .profile-layout {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .profile-sidebar {

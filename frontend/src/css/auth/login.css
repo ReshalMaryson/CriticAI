@@ -145,11 +145,12 @@
   }
 
   .login-box {
+    position: relative;
+    top: -15px;
     width: 100%;
     max-width: 400px;
   }
-
-  .login-brand h2 {
-    font-size: 38px;
+  .login-brand {
+    display: none;
   }
 }

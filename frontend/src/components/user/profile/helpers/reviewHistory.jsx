@@ -103,12 +103,6 @@ export default function ReviewHistory({ showPersonalInfo }) {
               className="load-more-btn"
               disabled={loadingMore}
               onClick={handleLoadMore}
-              style={{
-                width: "16%",
-                margin: "0 auto",
-                borderRadius: "10px",
-                padding: "0.7rem",
-              }}
             >
               {loadingMore ? "Loading..." : "Load More"}
             </button>

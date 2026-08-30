@@ -125,7 +125,6 @@ try {
             </div>
           </div>
         </section>
-        <footer>© 2026 CriticAI — Built for developers.</footer>
       </div>
     </>
   );

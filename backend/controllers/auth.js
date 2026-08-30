@@ -57,18 +57,18 @@ exports.Login = async (req, res) => {
 
     // save access token in cookie
     res.cookie("token", accessToken, {
-        httpOnly: true,
-    secure: true,
-    sameSite: "none",
-      maxAge: 3 * 60 * 1000, 
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 3 * 60 * 1000,
     });
 
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
-  httpOnly: true,
-   secure: true,
-    sameSite: "none",
-      maxAge: 1 * 24 * 60 * 60 * 1000, 
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
     // payload for the response
@@ -141,9 +141,9 @@ exports.refreshToken = async (req, res) => {
 
     // set new access token in cookies
     res.cookie("token", newAccessToken, {
-     httpOnly: true,
-secure: true,
-    sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
       maxAge: 3 * 60 * 1000,
     });
 
@@ -168,7 +168,7 @@ exports.GoogleLogin = async (req, res) => {
 
     // verify token with Google
     const googleRes = await fetch(
-      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`
+      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`,
     );
 
     if (!googleRes.ok) {
@@ -176,7 +176,6 @@ exports.GoogleLogin = async (req, res) => {
     }
 
     const payload = await googleRes.json();
-  
 
     // find or create user
     let user = await Users.findOne({ email: payload.email });
@@ -196,7 +195,7 @@ exports.GoogleLogin = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1m", 
+        expiresIn: "1m",
       },
     );
 
@@ -219,17 +218,17 @@ exports.GoogleLogin = async (req, res) => {
 
     // save access token in cookie
     res.cookie("token", jwtAccessToken, {
-  httpOnly: true,
-secure: true,
-    sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
       maxAge: 3 * 60 * 1000,
     });
 
     // save refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-secure: true,
-    sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 

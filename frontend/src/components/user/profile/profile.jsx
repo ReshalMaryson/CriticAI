@@ -18,9 +18,6 @@ export default function Profile() {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
 
-  //error states
-  const [profileFeildsError, setProfileFeildsError] = useState("");
-
   // UI controls
   const [activeReviewHistory, setActiveReviewHistory] = useState(false);
   const [activePersonalInfo, setActivePersonalInfo] = useState(true);
@@ -199,7 +196,7 @@ export default function Profile() {
                 />
                 <small>Email address cannot be changed from this page.</small>
               </div>
-              {/* <div className="field-error">{profileFeildsError}</div> */}
+
               <div className="profile-form-actions">
                 {message && (
                   <p

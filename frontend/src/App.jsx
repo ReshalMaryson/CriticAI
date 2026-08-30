@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./components/auth/login";
 import Profile from "./components/user/profile/profile";
 import Header from "./components/header";
+import Footer from "./components/user/footer";
 import SignUp from "./components/auth/signup";
 
 import LandingPage from "./components/landingPage/landingPage";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
+      <Footer />
     </>
   );
 }
