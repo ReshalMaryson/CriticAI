@@ -37,7 +37,7 @@ export default function LandingPage() {
                 Start Reviewing
               </Link>
 
-              <button className="secondary">Explore</button>
+              {/* <button className="secondary">Explore</button> */}
             </div>
           </div>
 

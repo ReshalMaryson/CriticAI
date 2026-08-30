@@ -198,4 +198,15 @@ span {
   .slider-btn {
     display: none;
   }
+  .reviews-slider {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* smooth momentum scroll on iOS */
+  }
+
+  .review-card {
+    flex: 0 0 auto;
+  }
 }
