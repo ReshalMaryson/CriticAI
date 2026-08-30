@@ -1,29 +1,29 @@
 import api from "../../../api/axios";
 
 //login
-export const loginAttempt = async (user, navigate, login, setErrorMessage) => {
-  if (!user.email || !user.password) {
-    setErrorMessage("Missing required fields.");
-    return;
-  }
-  try {
-    const res = await api.post("/auth/login", user); 
-    if(res.status == 200){
-      login(res.data.data);
-
-        navigate("/", {
-          replace: true,
-          state: { reloadAfterLogin: true },
-        });
+  export const loginAttempt = async (user, navigate, login, setErrorMessage) => {
+    if (!user.email || !user.password) {
+      setErrorMessage("Missing required fields.");
+      return;
     }
-  
+    try {
+      const res = await api.post("/auth/login", user); 
+      if(res.status == 200){
+        login(res.data.data);
 
-  } catch (err) {
-    console.log(err);
-    const msg = err.response?.data?.message || "Something went wrong. Please try again.";
-    setErrorMessage(msg);
-  }
-};
+          navigate("/", {
+            replace: true,
+            state: { reloadAfterLogin: true },
+          });
+      }
+    
+
+    } catch (err) {
+      console.log(err);
+      const msg = err.response?.data?.message || "Something went wrong. Please try again.";
+      setErrorMessage(msg);
+    }
+  };
 
 //google login
 export const googleLoginAttempt = async (accessToken, navigate, login) => {
