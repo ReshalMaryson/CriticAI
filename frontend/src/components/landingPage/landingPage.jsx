@@ -52,8 +52,7 @@ export default function LandingPage() {
 
             <div className="code">
               <pre>
-                {`exports.Generate = async (req, res) => 
-{
+                {`exports.Generate = async (req, res) =>{
 try {
     const {code, language} = req.body;  
       if(!code ||code.trim()===""){
