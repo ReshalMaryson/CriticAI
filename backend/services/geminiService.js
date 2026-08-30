@@ -31,7 +31,7 @@ async function Gemini(code, language) {
 
     const response = await withTimeout(  
     ai.models.generateContent({
-        model: "gemini-flash-latest",
+   model: "gemini-3.5-flash-lite",
         contents: prompt,
         config: {
             systemInstruction: `

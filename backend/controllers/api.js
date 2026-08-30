@@ -55,4 +55,5 @@ exports.Generate = async (req, res) => {
       error:err.message
     });
   }
+
 };

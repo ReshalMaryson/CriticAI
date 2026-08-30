@@ -12,8 +12,6 @@ const authRoutes = require("./routes/authRoutes");
 const apiRoutes = require("./routes/apiRoutes");
 const reviewRoutes=require("./routes/reviewRoutes");
 
-// DB
-
 
 //cors
 server.use(
@@ -38,6 +36,6 @@ server.use("/reviews",reviewRoutes)
 
 //server start
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+server.listen(5000, () => {
   console.log(`live on port ${PORT}`);
 });

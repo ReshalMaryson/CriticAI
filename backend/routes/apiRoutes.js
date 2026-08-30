@@ -8,6 +8,7 @@ const { Generate } = require("../controllers/api");
 const verifyToken = require("../middlewares/auth/verifyJWT");
 const reviewLimiter=require("../middlewares/rateLimit/reviewLimiter");
 const dailyLimiter=require('../middlewares/rateLimit/dailyDbLimiter');
+
 router.post("/generate", verifyToken,reviewLimiter,dailyLimiter,Generate);
 
 module.exports = router;

@@ -94,7 +94,7 @@ exports.getRecentReviews = async (req, res) => {
   }
 };
 
-// get all reviews of logged in user
+
 // get all reviews of logged in user
   exports.getUserReviews = async (req, res) => {
     try {
