@@ -154,10 +154,6 @@ export default function Generate() {
 
                     <div className="review-info">
                       <span>Score: {review.result.result.score}</span>
-
-                      {/* <span>
-                    {review.createdAt}
-                  </span> */}
                       <span>
                         {new Date(review.createdAt).toLocaleString(undefined, {
                           year: "numeric",
@@ -172,7 +168,9 @@ export default function Generate() {
                   </div>
                 ))}
                 <Link style={{ textDecoration: "none" }} to={"/profile"}>
-                  <button className="more-review">More →</button>
+                  {recentReviews.length === 5 ? (
+                    <button className="more-review">More →</button>
+                  ) : null}
                 </Link>
               </div>
               <button className="slider-btn" onClick={() => slide("right")}>
