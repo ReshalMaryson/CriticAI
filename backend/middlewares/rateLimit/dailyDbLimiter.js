@@ -23,7 +23,12 @@ async function dailyDbLimiter(req, res, next) {
     next();
   } catch (err) {
     console.error("Daily rate limit check failed:", err);
-    next();
+    return res.status(503).json({
+      status: false,
+      message:
+        "Unable to verify usage limit right now. Please try again shortly.",
+      error: "rate_limit_check_failed",
+    });
   }
 }
 

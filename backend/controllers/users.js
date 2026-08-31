@@ -34,13 +34,26 @@ exports.getAllUsers = async (req, res) => {
 //create a user
 exports.createUser = async (req, res) => {
   try {
-    const password = req.body.password;
+    const { name, email, password } = req.body;
+    if (
+      typeof email !== "string" ||
+      typeof name !== "string" ||
+      typeof password !== "string" ||
+      !password ||
+      password.trim() == "" ||
+      !email ||
+      email.trim() == "" ||
+      !name ||
+      name.trim() == ""
+    ) {
+      return res.status(400).json({ message: "missing required fields" });
+    }
 
     const hashedPass = await bcyrpt.hash(password, 10);
 
     const payload = {
-      name: req.body.name,
-      email: req.body.email,
+      name: name,
+      email: email,
       password: hashedPass,
       role: "user",
     };
@@ -134,8 +147,13 @@ exports.updateUser = async (req, res) => {
       return res.status(400).json({ message: "invalid Id" });
     }
 
+    const { name } = req.body;
+    if (typeof name == "string" || !name || name.trim() !== "") {
+      return res.status(400).json({ message: "invalid input vlue" });
+    }
+
     const payload = {
-      name: req.body.name,
+      name,
     };
 
     // update in the DB

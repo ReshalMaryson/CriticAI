@@ -9,7 +9,14 @@ exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!password || password.trim() == "" || !email || email.trim() == "") {
+    if (
+      typeof email !== "string" ||
+      typeof password !== "string" ||
+      !password ||
+      password.trim() == "" ||
+      !email ||
+      email.trim() == ""
+    ) {
       return res.status(400).json({ message: "missing required fields" });
     }
 
@@ -17,10 +24,6 @@ exports.Login = async (req, res) => {
     const user = await Users.findOne({ email: email }).select("+password");
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({ message: "invalid email or password" });
-    }
-
-    if (!verified) {
       return res.status(400).json({ message: "invalid email or password" });
     }
 
@@ -175,8 +178,7 @@ exports.refreshToken = async (req, res) => {
 exports.GoogleLogin = async (req, res) => {
   try {
     const { accessToken } = req.body;
-
-    if (!accessToken) {
+    if (typeof accessToken !== "string" || !accessToken.trim()) {
       return res.status(400).json({ message: "missing required fields" });
     }
 
@@ -190,6 +192,10 @@ exports.GoogleLogin = async (req, res) => {
     }
 
     const payload = await googleRes.json();
+
+    if (!payload.email_verified) {
+      return res.status(401).json({ message: "Google email not verified" });
+    }
 
     // find or create user
     let user = await Users.findOne({ email: payload.email });
