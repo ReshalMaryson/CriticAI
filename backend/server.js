@@ -14,7 +14,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 //cors
 server.use(
   cors({
-    origin: "https://critic-ai-lemon.vercel.app",
+    origin: "https://critic-ai-reshal-maryson.vercel.app",
     credentials: true,
   }),
 );
