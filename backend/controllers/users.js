@@ -42,7 +42,7 @@ exports.createUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPass,
-      role:req.body.role ?req.body.role:"user" 
+      role: "user",
     };
 
     const userAdded = await User.create(payload);
@@ -100,7 +100,7 @@ exports.getVerifiedUser = async (req, res) => {
 exports.deleteUserAcc = async (req, res) => {
   try {
     const deleteduser = await User.findByIdAndDelete({ _id: req.id });
-    
+
     if (!deleteduser) {
       return res.status(404).json({
         status: "failure",
@@ -125,39 +125,6 @@ exports.deleteUserAcc = async (req, res) => {
   }
 };
 
-// delete user's account and delete all its token
-// exports.deleteAUser = async (req, res) => {
-//   try {
-//     const Id = new mongoose.Types.ObjectId(req.params.id);
-//     if (!Id) {
-//       return res.status(400).json({ message: "invalid parameter Id" });
-//     }
-
-//     const deleteduser = await User.findByIdAndDelete({ _id: Id });
-
-//     if (!deleteduser) {
-//       return res.status(404).json({
-//         status: "failure",
-//         message: `User not found with id: ${Id}`,
-//       });
-//     }
-
-//     const tokens = await Tokens.deleteMany({ user: Id });
-
-//     return res.status(200).json({
-//       status: "success",
-//       message: "user deleted",
-//       tokens: tokens.deletedCount > 0 ? true : false,
-//       data: deleteduser._id,
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       status: "failure",
-//       message: "Server Error " + err.message,
-//     });
-//   }
-// };
-
 //update user
 exports.updateUser = async (req, res) => {
   try {
@@ -169,8 +136,8 @@ exports.updateUser = async (req, res) => {
 
     const payload = {
       name: req.body.name,
-      email:req.body.email
     };
+
     // update in the DB
     const userupdated = await User.findByIdAndUpdate(Id, payload, {
       new: true,

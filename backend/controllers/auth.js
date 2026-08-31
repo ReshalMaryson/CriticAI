@@ -34,7 +34,7 @@ exports.Login = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1m", // initial jwt expriy time for testing purpose.
+        expiresIn: "3m",
       },
     );
 
@@ -49,7 +49,7 @@ exports.Login = async (req, res) => {
 
     // save refresh token in the DB
     if (refreshToken) {
-      refreshTokenSchema.create({
+      await refreshTokenSchema.create({
         user: user._id,
         token: refreshToken,
       });
@@ -81,7 +81,7 @@ exports.Login = async (req, res) => {
     // success response
     return res.status(200).json({ message: "login successful", data: resUser });
   } catch (err) {
-    return res.status(500).json({ message: "server error " + err.message });
+    return res.status(500).json({ message: "server error" });
   }
 };
 
@@ -108,6 +108,7 @@ exports.Logout = async (req, res) => {
   }
 };
 
+//refresh token
 exports.refreshToken = async (req, res) => {
   const rt = req.cookies.refreshToken;
 
@@ -118,33 +119,49 @@ exports.refreshToken = async (req, res) => {
   }
 
   try {
-    // verify
-    const tokenVerfiy = jwt.verify(rt, process.env.JWT_REFRESH_SECRET);
+    // verify signature + expiry
+    const tokenVerify = jwt.verify(rt, process.env.JWT_REFRESH_SECRET);
 
-    // check Token in DB
-    const tokenExist = await refreshTokenSchema.findOne({ token: rt });
+    const tokenExist = await refreshTokenSchema.findOneAndDelete({ token: rt });
 
     if (!tokenExist) {
+      await refreshTokenSchema.deleteMany({ user: tokenVerify.id });
+      res.clearCookie("token");
+      res.clearCookie("refreshToken");
       return res.status(403).json({
-        message: "Invalid refresh token",
+        message: "Refresh token reuse detected. Please log in again.",
       });
     }
 
-    // release a new token
     const newAccessToken = jwt.sign(
-      { id: tokenVerfiy.id },
+      { id: tokenVerify.id },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "3m",
-      },
+      { expiresIn: "3m" },
     );
 
-    // set new access token in cookies
+    const newRefreshToken = jwt.sign(
+      { id: tokenVerify.id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "1d" },
+    );
+
+    await refreshTokenSchema.create({
+      user: tokenVerify.id,
+      token: newRefreshToken,
+    });
+
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
       maxAge: 3 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
@@ -195,7 +212,7 @@ exports.GoogleLogin = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1m",
+        expiresIn: "3m",
       },
     );
 
