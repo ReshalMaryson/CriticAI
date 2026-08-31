@@ -34,7 +34,7 @@ export default function Header() {
 
       <nav className={`header-links ${menuOpen ? "open" : ""}`}>
         <Link to="/contact" onClick={closeMenu}>
-          Contact
+          Dev
         </Link>
 
         {user ? (
