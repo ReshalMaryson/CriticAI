@@ -13,16 +13,13 @@ exports.Login = async (req, res) => {
       return res.status(400).json({ message: "missing required fields" });
     }
 
-    //fetch user by email
+    // //fetch user by email
     const user = await Users.findOne({ email: email }).select("+password");
-    if (!user) {
-      return res.status(404).json({
-        message: "Un-Registered Credentials. Please Signup first.",
-      });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ message: "invalid email or password" });
     }
 
-    // check the password
-    const verified = await bcrypt.compare(password, user.password);
     if (!verified) {
       return res.status(400).json({ message: "invalid email or password" });
     }
