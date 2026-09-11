@@ -6,9 +6,7 @@ export const getUser = async (setUser) => {
     const res = await api.get(`/users/me`);
     // console.log(res.data);
     setUser(res.data.user);
- 
   } catch (err) {
-    //what to do for these?? cuz they are still throwing error of 401 on console
     console.log(err.response?.data || err.message);
     console.log(err);
   }
@@ -29,15 +27,14 @@ export const updateUser = async (updateData, setUser) => {
     errors.forEach((error) => {
       console.log(error.msg);
     });
-    return false
+    return false;
   }
 };
 
 //delete logged in user's account
-export const deleteAccount = async ( logoutReq, navigate, contextEmpty) => {
+export const deleteAccount = async (logoutReq, navigate, contextEmpty) => {
   try {
-    // const res = await api.delete(`/users/${id}`);
-    const res= await api.delete("/users/me");
+    const res = await api.delete("/users/me");
 
     if (res.status == 200) {
       logoutReq(navigate, contextEmpty);

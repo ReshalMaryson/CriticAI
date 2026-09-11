@@ -1,29 +1,28 @@
 import api from "../../../api/axios";
 
 //login
-  export const loginAttempt = async (user, navigate, login, setErrorMessage) => {
-    if (!user.email || !user.password) {
-      setErrorMessage("Missing required fields.");
-      return;
-    }
-    try {
-      const res = await api.post("/auth/login", user); 
-      if(res.status == 200){
-        login(res.data.data);
+export const loginAttempt = async (user, navigate, login, setErrorMessage) => {
+  if (!user.email || !user.password) {
+    setErrorMessage("Missing required fields.");
+    return;
+  }
+  try {
+    const res = await api.post("/auth/login", user);
+    if (res.status == 200) {
+      login(res.data.data);
 
-          navigate("/", {
-            replace: true,
-            state: { reloadAfterLogin: true },
-          });
-      }
-    
-
-    } catch (err) {
-      console.log(err);
-      const msg = err.response?.data?.message || "Something went wrong. Please try again.";
-      setErrorMessage(msg);
+      navigate("/", {
+        replace: true,
+        state: { reloadAfterLogin: true },
+      });
     }
-  };
+  } catch (err) {
+    console.log(err);
+    const msg =
+      err.response?.data?.message || "Something went wrong. Please try again.";
+    setErrorMessage(msg);
+  }
+};
 
 //google login
 export const googleLoginAttempt = async (accessToken, navigate, login) => {
@@ -40,13 +39,11 @@ export const googleLoginAttempt = async (accessToken, navigate, login) => {
   }
 };
 
-
-
 // logout
 export const logoutAttempt = async (navigate, logout) => {
   try {
     await api.post("/auth/logout");
-    navigate("/");    
+    navigate("/");
     logout();
   } catch (err) {
     console.log(err.response?.data || err.message);
@@ -57,11 +54,7 @@ export const logoutAttempt = async (navigate, logout) => {
 
 //  - validate fields to create user
 const validate = (formData) => {
-  if (
-    !formData.name ||
-    !formData.email ||
-    !formData.password 
-  ) {
+  if (!formData.name || !formData.email || !formData.password) {
     return "All fields are required";
   }
 
@@ -103,7 +96,7 @@ export const signUp = async (
       setFormData({
         name: "",
         email: "",
-        password: ""
+        password: "",
       });
 
       // direct to login page
